@@ -2,16 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme';
+import { DialogProvider } from 'react-dialog-async';
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <App />
-      </ThemeProvider>
+      <BrowserRouter>
+        <SnackbarProvider maxSnack={3}>
+          <DialogProvider>
+            <App />
+          </DialogProvider>
+        </SnackbarProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
