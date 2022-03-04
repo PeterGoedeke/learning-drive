@@ -1,12 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { BrowserRouter } from "react-router-dom";
-import reportWebVitals from './reportWebVitals';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import theme from './theme';
-import { DialogProvider } from 'react-dialog-async';
 import { SnackbarProvider } from 'notistack';
+import React from 'react';
+import { DialogProvider } from 'react-dialog-async';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+
+import App from './App';
+
+import reportWebVitals from './reportWebVitals';
+import theme from './theme';
 
 ReactDOM.render(
   <React.StrictMode>
