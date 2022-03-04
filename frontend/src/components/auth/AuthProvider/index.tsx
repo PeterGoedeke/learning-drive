@@ -5,9 +5,10 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
+  User,
 } from 'firebase/auth';
 import { useSnackbar } from 'notistack';
-import { PropsWithChildren, useMemo } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 import { AuthContext, AuthContextState } from '../../../context/AuthContext';
 
@@ -19,10 +20,18 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
   const auth = getAuth(firebaseApp);
   const { enqueueSnackbar } = useSnackbar();
 
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUser(user || undefined);
+    });
+  }, [auth]);
+
   const ctx: AuthContextState = useMemo(() => {
     const providerSignInFactory = (provider: any) => async () => {
       try {
-        signInWithPopup(auth, provider);
+        await signInWithPopup(auth, provider);
       } catch (error: any) {
         enqueueSnackbar(error.message, { variant: 'error' });
       }
@@ -39,13 +48,13 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
     };
 
     return {
-      user: auth.currentUser || undefined,
+      user: user,
       signInWithGithub,
       signInWithGoogle,
       signInWithFacebook,
       signOut,
     };
-  }, [auth, enqueueSnackbar]);
+  }, [auth, enqueueSnackbar, user]);
 
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 };
