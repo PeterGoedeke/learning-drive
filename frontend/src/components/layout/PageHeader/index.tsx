@@ -10,6 +10,11 @@ export interface PageHeaderProps {
   backButton?: boolean;
 }
 
+/**
+ * Displays a header at the top of the page. This header will be sticky even as the user scrolls.
+ * It also can optionally be passed an action which will be displayed on the right side, as well
+ * as a back button.
+ */
 const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
   const navigate = useNavigate();
   return (
