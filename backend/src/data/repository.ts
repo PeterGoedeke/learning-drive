@@ -1,5 +1,6 @@
 import prisma from './db'
 import { Prisma, Post, User, Category } from '@prisma/client'
+import getOpenGraph from '../util/get-open-graph'
 
 const repository = {
     async createPost(userId: string, post: Components.Schemas.CreatePost) {
@@ -10,9 +11,26 @@ const repository = {
                 timestampModified: Date.now(),
                 categories: post.categories as string[],
                 resource: post.resource || null,
+                openGraphUrl: post.resource,
                 userId
             }
         })
+    },
+
+    async getOrCreateOpenGraph(url: string) {
+        let openGraph = await prisma.openGraph.findUnique({
+            where: {
+                url
+            }
+        })
+
+        if (openGraph === null) {
+            const openGraphData = (await getOpenGraph(url)) || { url }
+            openGraph = await prisma.openGraph.create({
+                data: openGraphData
+            })
+        }
+        return openGraph
     },
 
     async likePost(userId: string, postId: number) {
@@ -80,7 +98,8 @@ const repository = {
             },
             include: {
                 user: true,
-                likedUsers: true
+                likedUsers: true,
+                openGraph: true
             },
             take: query.pageSize,
             skip: query.pageSize && query.offset ? query.pageSize * query.offset : undefined

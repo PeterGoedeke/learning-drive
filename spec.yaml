@@ -232,17 +232,54 @@ components:
         content:
           $ref: "#/components/schemas/Content"
         resource:
-          $ref: "#/components/schemas/Resource"
+          type: object
+          required:
+            - link
+          properties:
+            link:
+              $ref: "#/components/schemas/Resource"
+            openGraph:
+              type: object
+              required:
+                - title
+                - type
+                - url
+                - description
+                - imageUrl
+              properties:
+                title:
+                  description: The name of the website
+                  example: "GitHub - PeterGoedeke/blocked: https://blockedgame.live"
+                  type: string
+                url:
+                  description: The url which the request was sent to
+                  example: "https://github.com/PeterGoedeke/blocked"
+                  type: string
+                  format: url
+                description:
+                  description: The description of the website
+                  example: "https://blockedgame.live. Contribute to PeterGoedeke/blocked development by creating an account on GitHub."
+                  type: string
+                imageUrl:
+                  description: The URL of the open graph image
+                  example: "https://repository-images.githubusercontent.com/422754120/03c53f9e-6306-4eb8-a2f4-6886041be39e"
+                  type: string
+                  format: url
         reactions:
           description: The various types of reactions which have been made to this post. Currently, only likes are supported
           type: object
           required:
             - likes
+            - isPersonallyLiked
           properties:
             likes:
               description: The number of times which people have liked a post
               example: 52
               type: integer
+            isPersonallyLiked:
+              description: Whether the current user has liked the post or not
+              example: false
+              type: boolean
 
     Categories:
       description: The list of categories to which the post belongs

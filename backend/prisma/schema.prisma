@@ -36,8 +36,20 @@ model Post {
   content           String
 
   likedUsers User[]
+
+  openGraph    OpenGraph? @relation(fields: [openGraphUrl], references: [url])
+  openGraphUrl String?
 }
 
 model Category {
   name String @id
+}
+
+model OpenGraph {
+  url         String  @id
+  title       String?
+  description String?
+  imageUrl    String?
+
+  Post Post[]
 }
