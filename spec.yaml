@@ -31,6 +31,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Post"
+        "400":
+          $ref: "#/components/responses/ParseError"
 
   "/posts":
     post:
