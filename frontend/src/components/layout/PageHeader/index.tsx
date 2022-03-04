@@ -1,4 +1,13 @@
-import { Box, Divider, IconButton, Stack, styled, Toolbar, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  Stack,
+  styled,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,13 +30,15 @@ const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
     <AppBar>
       <Stack component={Toolbar} direction='row' spacing={1}>
         {backButton && (
-          <IconButton
-            sx={{ color: 'white' }}
-            onClick={() => navigate(-1)}
-            data-testid='back-button'
-          >
-            <ArrowLeftIcon fontSize='inherit' />
-          </IconButton>
+          <Tooltip title='Go Back'>
+            <IconButton
+              sx={{ color: 'white' }}
+              onClick={() => navigate(-1)}
+              data-testid='back-button'
+            >
+              <ArrowLeftIcon fontSize='inherit' />
+            </IconButton>
+          </Tooltip>
         )}
         <Typography variant='h5' component='h1'>
           {title}
