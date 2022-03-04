@@ -1,4 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { initializeApp } from 'firebase/app';
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { DialogProvider } from 'react-dialog-async';
@@ -6,9 +7,14 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
+import { AuthProvider } from './components/auth/AuthProvider';
 
 import reportWebVitals from './reportWebVitals';
 import theme from './theme';
+import { firebaseConfig } from './utils/firebaseConfig';
+
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,9 +22,11 @@ ReactDOM.render(
       <CssBaseline />
       <BrowserRouter>
         <SnackbarProvider maxSnack={3}>
-          <DialogProvider>
-            <App />
-          </DialogProvider>
+          <AuthProvider firebaseApp={app}>
+            <DialogProvider>
+              <App />
+            </DialogProvider>
+          </AuthProvider>
         </SnackbarProvider>
       </BrowserRouter>
     </ThemeProvider>
