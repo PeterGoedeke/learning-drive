@@ -1,8 +1,9 @@
-import { Container, Typography } from '@mui/material';
+import { Container, Divider, Typography } from '@mui/material';
 
 const App = () => (
   <Container>
-    <Typography variant='h1'>Learning Drive</Typography>
+    <Typography variant='h5' gutterBottom>Learning Drive</Typography>
+    <Divider />
   </Container>
 );
 
