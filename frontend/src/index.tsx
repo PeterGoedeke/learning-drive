@@ -8,11 +8,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 import reportWebVitals from './reportWebVitals';
-import darkTheme from './theme/darkTheme';
+import theme from './theme';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme()}>
       <CssBaseline />
       <BrowserRouter>
         <SnackbarProvider maxSnack={3}>
