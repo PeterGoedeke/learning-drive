@@ -1,5 +1,6 @@
 import { IconButton } from '@mui/material';
 import { Meta, Story } from '@storybook/react';
+import { BrowserRouter } from 'react-router-dom';
 
 import PageHeader, { PageHeaderProps } from '.';
 
@@ -13,7 +14,11 @@ export default {
 
 interface PageHeaderStoryProps extends PageHeaderProps {}
 
-const Template: Story<PageHeaderStoryProps> = (args) => <PageHeader {...args} />;
+const Template: Story<PageHeaderStoryProps> = (args) => (
+  <BrowserRouter>
+    <PageHeader {...args} />
+  </BrowserRouter>
+);
 
 export const Default = Template.bind({});
 Default.args = {
