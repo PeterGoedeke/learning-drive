@@ -10,7 +10,7 @@ export const buildRoutes = (isAuthenticated: boolean): RouteObject[] => {
   if (isAuthenticated) {
     return [
       {
-        path: '/global',
+        path: '/',
         element: <Layout />,
         children: [
           { index: true, element: <GlobalPage /> },
