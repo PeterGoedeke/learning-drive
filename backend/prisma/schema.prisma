@@ -9,3 +9,34 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model User {
+  id Int @id @default(autoincrement())
+
+  imageUrl String
+  name     String
+  handle   String @unique
+
+  followers User[] @relation("UserToUser")
+  followed  User[] @relation("UserToUser")
+  Post      Post[]
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+
+  user              User       @relation(fields: [userId], references: [id])
+  userId            Int
+  timestampCreated  Int
+  timestampModified Int
+  categories        Category[]
+  content           String
+  likes             Int
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+
+  name  String
+  posts Post[]
+}
