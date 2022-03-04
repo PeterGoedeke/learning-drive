@@ -26,3 +26,15 @@ type reactToPost = (
         | Paths.ReactToPost.Responses.$404
     >
 ) => void
+
+const getPostByIdHandler: getPostById = async (req, res) => {}
+
+export const getPostById = asyncHandler(getPostByIdHandler)
+
+const updatePostHandler: updatePost = async (req, res) => {}
+
+export const updatePost = asyncHandler(updatePostHandler)
+
+const reactToPostHandler: reactToPost = async (req, res) => {}
+
+export const reactToPost = asyncHandler(reactToPostHandler)

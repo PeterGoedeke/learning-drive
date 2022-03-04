@@ -10,3 +10,11 @@ type createCategory = (
     req: Request<ParamsDictionary, {}, Paths.CreateCategory.RequestBody>,
     res: Response<Paths.CreateCategory.Responses.$201 | Paths.CreateCategory.Responses.$400>
 ) => void
+
+const getCategoriesHandler: getCategories = async (req, res) => {}
+
+export const getCategories = asyncHandler(getCategoriesHandler)
+
+const createCategoryHandler: createCategory = async (req, res) => {}
+
+export const createCategory = asyncHandler(createCategoryHandler)

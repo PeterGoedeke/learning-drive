@@ -13,3 +13,11 @@ type createPosts = (
     req: Request<ParamsDictionary, {}, Paths.CreatePost.RequestBody>,
     res: Response<Paths.CreatePost.Responses.$201 | Paths.CreatePost.Responses.$400>
 ) => void
+
+const getPostsHandler: getPosts = async (req, res) => {}
+
+export const getPosts = asyncHandler(getPostsHandler)
+
+const createPostsHandler: createPosts = async (req, res) => {}
+
+export const createPosts = asyncHandler(createPostsHandler)
