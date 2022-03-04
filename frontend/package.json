@@ -24,6 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "gen-client": "ts-node ./scripts/generateSwaggerClient",
     "lint": "prettier --write src/**/*.{js,jsx,ts,tsx} && eslint --cache --fix src/**/*.{js,jsx,ts,tsx}",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -43,8 +44,10 @@
   },
   "packageManager": "yarn@3.2.0",
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.4.26",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import-helpers": "^1.2.1",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "ts-node": "^10.6.0"
   }
 }
