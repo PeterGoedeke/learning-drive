@@ -4,7 +4,10 @@ import { ComponentStory, Meta, Story } from '@storybook/react';
 import ArrowLeftIcon from './ArrowLeftIcon';
 import EditIcon from './EditIcon';
 import ExitIcon from './ExitIcon';
+import FacebookIcon from './FacebookIcon';
+import GithubIcon from './GithubIcon';
 import GlobeIcon from './GlobeIcon';
+import GoogleIcon from './GoogleIcon';
 import ListIcon from './ListIcon';
 import PlusIcon from './PlusIcon';
 import SearchIcon from './SearchIcon';
@@ -45,6 +48,9 @@ export const Default: Story<SvgIconProps> = (args) => (
     <SendIcon {...args} />
     <UserIcon {...args} />
     <WriteIcon {...args} />
+    <GoogleIcon {...args} />
+    <FacebookIcon {...args} />
+    <GithubIcon {...args} />
   </Box>
 );
 
@@ -67,3 +73,9 @@ export const Send: ComponentStory<typeof SendIcon> = (args) => <SendIcon {...arg
 export const User: ComponentStory<typeof UserIcon> = (args) => <UserIcon {...args} />;
 
 export const Write: ComponentStory<typeof WriteIcon> = (args) => <WriteIcon {...args} />;
+
+export const Github: ComponentStory<typeof GithubIcon> = (args) => <GithubIcon {...args} />;
+
+export const Facebook: ComponentStory<typeof FacebookIcon> = (args) => <FacebookIcon {...args} />;
+
+export const Google: ComponentStory<typeof GoogleIcon> = (args) => <GoogleIcon {...args} />;
