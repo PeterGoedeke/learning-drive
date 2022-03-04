@@ -1,10 +1,10 @@
-import { Container, IconButton } from '@mui/material';
+import { Container } from '@mui/material';
 import { Meta, Story } from '@storybook/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Post, PostProps } from '.';
 
-import { post1 } from './testData';
+import { post1, post2 } from './testData';
 
 export default {
   component: Post,
@@ -24,3 +24,9 @@ const Template: Story<PostStoryProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = { data: post1 };
+
+export const WithLink = Template.bind({});
+WithLink.args = { data: post2 };
+
+export const AsOwner = Template.bind({});
+AsOwner.args = { data: post2, userId: 123 };
