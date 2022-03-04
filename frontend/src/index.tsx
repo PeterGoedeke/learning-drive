@@ -12,7 +12,7 @@ import theme from './theme';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme()}>
       <CssBaseline />
       <BrowserRouter>
         <SnackbarProvider maxSnack={3}>
