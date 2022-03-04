@@ -6,7 +6,6 @@
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.4.4",
-    "@openapitools/openapi-generator-cli": "^2.4.26",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -45,9 +44,10 @@
   },
   "packageManager": "yarn@3.2.0",
   "devDependencies": {
-    "ts-node": "^10.6.0",
+    "@openapitools/openapi-generator-cli": "^2.4.26",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import-helpers": "^1.2.1",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "ts-node": "^10.6.0"
   }
 }
