@@ -326,8 +326,8 @@ components:
       properties:
         _id:
           description: The unique identifier of the user
-          example: 6
-          type: integer
+          example: 7234a92f-185a-4e86-8276-54e3fa7b67c6
+          type: string
         imageUrl:
           description: The url of the profile picture of the user
           example: https://firebase/learning-drive/cool-image.png
@@ -398,12 +398,16 @@ components:
             type: string
         userIdQuery:
           description: Return only posts which were posted by this user
-          example: 5
-          type: integer
+          example: 7234a92f-185a-4e86-8276-54e3fa7b67c6
+          type: string
         offset:
           description: Used for pagination; must be used in conjunction with the `pageSize` field. Represents the page number the request is for, given the page size specified by the `pageSize` field. 0 indexed
+          example: 2
+          type: integer
         pageSize:
           description: Used for pagination; must be used in conjunction with the `offset` field. Represents the number of items which should be included per page. Multiple categories should be separated by commas.
+          example: 10
+          type: integer
 
   responses:
     UnauthorizedError:
