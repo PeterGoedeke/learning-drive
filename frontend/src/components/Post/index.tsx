@@ -1,16 +1,8 @@
-import {
-  Avatar,
-  CardHeader,
-  Stack,
-  Typography,
-  Chip,
-  styled,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
+import { Avatar, CardHeader, Stack, Typography, Chip, styled, IconButton } from '@mui/material';
 import format from 'date-fns/format';
 import { useState } from 'react';
 
+import Tooltip from '../Tooltip';
 import { HeartButton } from './HeartButton';
 import { PostLink } from './PostLink';
 
