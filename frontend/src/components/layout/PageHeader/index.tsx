@@ -1,15 +1,8 @@
-import {
-  Box,
-  Divider,
-  IconButton,
-  Stack,
-  styled,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, IconButton, Stack, styled, Toolbar, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import Tooltip from '../../Tooltip';
 
 import ArrowLeftIcon from '../../icons/ArrowLeftIcon';
 
