@@ -26,15 +26,10 @@
   "scripts": {
     "start": "react-scripts start",
     "gen-client": "ts-node ./scripts/generateSwaggerClient",
+    "lint": "prettier --write src/**/*.{js,jsx,ts,tsx} && eslint --cache --fix src/**/*.{js,jsx,ts,tsx}",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -50,6 +45,9 @@
   },
   "packageManager": "yarn@3.2.0",
   "devDependencies": {
-    "ts-node": "^10.6.0"
+    "ts-node": "^10.6.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import-helpers": "^1.2.1",
+    "prettier": "^2.5.1"
   }
 }

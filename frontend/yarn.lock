@@ -5889,6 +5889,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-prettier@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "eslint-config-prettier@npm:8.5.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: 0d0f5c32e7a0ad91249467ce71ca92394ccd343178277d318baf32063b79ea90216f4c81d1065d60f96366fdc60f151d4d68ae7811a58bd37228b84c2083f893
+  languageName: node
+  linkType: hard
+
 "eslint-config-react-app@npm:^7.0.0":
   version: 7.0.0
   resolution: "eslint-config-react-app@npm:7.0.0"
@@ -5944,6 +5955,15 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.14.9
     eslint: ^8.1.0
   checksum: 30e63c5357b0b5571f39afed51e59c140084f4aa53c106b1fd04f26da42b268908466daa6020b92943e71409bdaee1c67202515ed9012404d027cc92cb03cefa
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-import-helpers@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "eslint-plugin-import-helpers@npm:1.2.1"
+  peerDependencies:
+    eslint: 5.x - 8.x
+  checksum: 9ff2748f30a2c1b1009dc7617286af90122c43316a43cb89954a17a59d1fbda60afb685f964caf7c644deefb60b91053151fcf1baf46cccc0872cd4d08196441
   languageName: node
   linkType: hard
 
@@ -6631,7 +6651,10 @@ __metadata:
     "@types/node": ^16.7.13
     "@types/react": ^17.0.20
     "@types/react-dom": ^17.0.9
+    eslint-config-prettier: ^8.5.0
+    eslint-plugin-import-helpers: ^1.2.1
     notistack: ^2.0.3
+    prettier: ^2.5.1
     react: ^17.0.2
     react-dialog-async: ^1.0.8
     react-dom: ^17.0.2
@@ -10573,6 +10596,15 @@ __metadata:
   version: 1.1.2
   resolution: "prelude-ls@npm:1.1.2"
   checksum: c4867c87488e4a0c233e158e4d0d5565b609b105d75e4c05dc760840475f06b731332eb93cc8c9cecb840aa8ec323ca3c9a56ad7820ad2e63f0261dadcb154e4
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.5.1":
+  version: 2.5.1
+  resolution: "prettier@npm:2.5.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
   languageName: node
   linkType: hard
 
