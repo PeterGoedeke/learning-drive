@@ -4,7 +4,7 @@ import { dbUserToUserDto } from './user'
 type dbPost = Post & {
     user: User
     likedUsers: User[]
-    openGraph?: OpenGraph
+    openGraph: OpenGraph | null
 }
 
 export const dbPostToPostDto = (post: dbPost, user: User): Components.Schemas.Post => {
