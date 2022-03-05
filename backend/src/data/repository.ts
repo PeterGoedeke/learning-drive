@@ -7,8 +7,6 @@ const repository = {
         return await prisma.post.create({
             data: {
                 content: post.content,
-                timestampCreated: Date.now(),
-                timestampModified: Date.now(),
                 categories: post.categories as string[],
                 resource: post.resource || null,
                 openGraphUrl: post.resource,
@@ -78,7 +76,6 @@ const repository = {
             },
             data: {
                 content: post.content,
-                timestampModified: Date.now(),
                 categories: post.categories as string[],
                 resource: post.resource || null
             }
