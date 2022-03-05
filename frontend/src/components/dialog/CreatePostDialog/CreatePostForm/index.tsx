@@ -54,7 +54,7 @@ export const CreatePostForm = ({ handleSubmit, initialValues, editMode }: Create
               ),
             }}
           />
-          <CategorySelect name='categories' label='Categories' />
+          <CategorySelect name='categories' label='Categories' allowCreate />
           <SubmitButton
             color='primary'
             variant='contained'

@@ -15,6 +15,7 @@ export interface CategorySelectProps {
   name: string;
   label?: string;
   placeholder?: string;
+  allowCreate?: boolean;
 }
 
 type Category = {
@@ -25,7 +26,7 @@ type Category = {
 
 const filter = createFilterOptions<Category>();
 
-export const CategorySelect = ({ name, label, placeholder }: CategorySelectProps) => {
+export const CategorySelect = ({ name, label, placeholder, allowCreate }: CategorySelectProps) => {
   const {
     control,
     formState: { errors, isSubmitting },
@@ -57,7 +58,7 @@ export const CategorySelect = ({ name, label, placeholder }: CategorySelectProps
             loadingText={'❌ Failed to load categories'}
             isOptionEqualToValue={(option, value) => option.key === value.key}
             onChange={(e, v, reason, option) => {
-              if (option?.option.new) {
+              if (allowCreate && option?.option.new) {
                 handleCreateNewCategory(option.option.text);
               }
               onChange(v);
@@ -71,7 +72,7 @@ export const CategorySelect = ({ name, label, placeholder }: CategorySelectProps
               // Suggest the creation of a new value
               const isExisting = options.some((option) => inputValue.toLowerCase() === option.key);
 
-              if (inputValue !== '' && !isExisting) {
+              if (allowCreate && inputValue !== '' && !isExisting) {
                 // Add a new option to the list
                 filteredOpts.push({
                   key: inputValue.toLowerCase(),
