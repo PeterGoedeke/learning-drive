@@ -12,7 +12,7 @@ if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir);
 }
 
-const specURL = './swagger.yml';
+const specURL = '../spec.yaml';
 
 console.log(`Generating client API from spec at ${specURL}`);
 

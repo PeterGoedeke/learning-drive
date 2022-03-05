@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, Typography } from '@mui/material';
 
 import fallback from '../../../assets/image/fallback.jpg';
 

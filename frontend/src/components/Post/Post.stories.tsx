@@ -29,4 +29,4 @@ export const WithLink = Template.bind({});
 WithLink.args = { data: post2 };
 
 export const AsOwner = Template.bind({});
-AsOwner.args = { data: post2, userId: 123 };
+AsOwner.args = { data: post2, userId: '123' };

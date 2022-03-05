@@ -14,7 +14,7 @@ export interface PostProps {
   // Data about the post
   data: PostData;
   // The id of the authenticated user
-  userId: number;
+  userId: string;
 
   onEdit?: (data: PostData) => void;
 }
@@ -59,7 +59,7 @@ export const Post = ({ data, userId, onEdit }: PostProps) => {
         }
       />
       <Typography sx={{ whiteSpace: 'pre-wrap' }}>{data.content}</Typography>
-      {data.resource && <PostLink url={data.resource} />}
+      {data.resource && <PostLink url={data.resource.link} />}
       <Stack direction='row' alignItems='center'>
         <Tooltip title={liked ? 'Unlike Post' : 'Like Post'}>
           <HeartButton color='secondary' filled={liked} onClick={() => setLiked((l) => !l)} />
