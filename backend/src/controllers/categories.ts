@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import asyncHandler from 'express-async-handler'
-import Logger from '../logger'
+import Logger from '../util/logger'
 import { ParamsDictionary } from 'express-serve-static-core/index'
 
 type getCategories = (req: Request, res: Response<Paths.GetCategories.Responses.$200>) => void

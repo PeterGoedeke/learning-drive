@@ -1,6 +1,7 @@
 import prisma from './db'
 import { Prisma, Post, User, Category } from '@prisma/client'
 import getOpenGraph from '../util/get-open-graph'
+import { UserRecord } from 'firebase-admin/auth'
 
 const repository = {
     async createPost(userId: string, post: Components.Schemas.CreatePost) {
@@ -125,6 +126,23 @@ const repository = {
                 followers: true
             }
         })
+    },
+
+    async createUser(user: UserRecord) {
+        try {
+            const name = user.displayName || 'Unnamed'
+            const userCount = prisma.user.count()
+            return await prisma.user.create({
+                data: {
+                    id: user.uid,
+                    name,
+                    imageUrl: user.photoURL || process.env.DEFAULT_PICTURE_LINK,
+                    handle: name + userCount
+                }
+            })
+        } catch (error: any) {
+            // if this is a duplicate error, then retry until it isn't
+        }
     }
 }
 

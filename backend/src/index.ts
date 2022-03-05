@@ -5,7 +5,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import path from 'path'
 import * as OpenApiValidator from 'express-openapi-validator'
 import { ValidationError } from 'express-openapi-validator/dist/framework/types'
-import Logger from './logger'
+import Logger from './util/logger'
 import expressWinston from 'express-winston'
 
 const app = express()
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     })
 })
 
-import verify from './verify'
+import verify from './util/verify'
 import { isWebUri } from 'valid-url'
 
 app.use(
@@ -47,7 +47,7 @@ app.use(
                     }
                     const token = req.headers.authorization.split(' ')[1]
 
-                    req.userId = verify(token)
+                    req.userId = await verify(token)
                     return true
                 }
             }

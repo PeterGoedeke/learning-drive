@@ -15,7 +15,7 @@ model User {
 
   imageUrl String
   name     String
-  handle   String
+  handle   String @unique
 
   followers  User[] @relation("UserToUser")
   followed   User[] @relation("UserToUser")
