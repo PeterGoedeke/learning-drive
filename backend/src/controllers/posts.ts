@@ -19,13 +19,21 @@ type createPosts = (
 const getPostsHandler: getPosts = async (req, res) => {
     const posts = await repository.getPosts(req.body)
 
+    const user = await repository.getCurrentUser(req.userId)
+
+    // TODO: 400 if user doesn't exist
+
     return res.status(StatusCodes.OK).json({
-        posts: posts.map(post => dbPostToPostDto(post, post.user))
+        posts: posts.map(post => dbPostToPostDto(post, user))
     })
 }
 
 export const getPosts = asyncHandler(getPostsHandler)
 
-const createPostsHandler: createPosts = async (req, res) => {}
+const createPostsHandler: createPosts = async (req, res) => {
+    const response = await repository.createPost(req.userId, req.body)
+
+    return res.status(StatusCodes.CREATED).end()
+}
 
 export const createPosts = asyncHandler(createPostsHandler)

@@ -3,6 +3,8 @@ import { StatusCodes } from 'http-status-codes'
 import asyncHandler from 'express-async-handler'
 import Logger from '../util/logger'
 import { ParamsDictionary } from 'express-serve-static-core/index'
+import repository from '../data/repository'
+import { dbPostToPostDto } from '../data/post'
 
 type getPostById = (
     req: Request,
@@ -27,7 +29,18 @@ type reactToPost = (
     >
 ) => void
 
-const getPostByIdHandler: getPostById = async (req, res) => {}
+const getPostByIdHandler: getPostById = async (req, res) => {
+    const id = Number(req.params.id)
+
+    const post = await repository.getPostById(id)
+    if (post === null) {
+        return res.status(StatusCodes.NOT_FOUND).end()
+    }
+
+    const user = await repository.getCurrentUser(req.userId)
+
+    return res.status(StatusCodes.OK).json(dbPostToPostDto(post, user))
+}
 
 export const getPostById = asyncHandler(getPostByIdHandler)
 

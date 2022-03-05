@@ -133,6 +133,19 @@ const repository = {
         })
     },
 
+    async getCurrentUser(userId: string) {
+        return await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            include: {
+                followed: true,
+                followers: true
+            },
+            rejectOnNotFound: true
+        })
+    },
+
     async createUser(user: UserRecord) {
         try {
             const name = user.displayName || 'Unnamed'
