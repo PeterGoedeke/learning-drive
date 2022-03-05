@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-import { SIDEBAR_WIDTH } from '../../../util/constants';
+import { SIDEBAR_WIDTH } from '../../../utils/constants';
 import GlobeIcon from '../../icons/GlobeIcon';
 import ListIcon from '../../icons/ListIcon';
 import UserIcon from '../../icons/UserIcon';
