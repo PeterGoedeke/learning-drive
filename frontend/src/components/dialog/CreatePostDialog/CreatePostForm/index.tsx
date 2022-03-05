@@ -17,12 +17,13 @@ import SendIcon from '../../../icons/SendIcon';
 interface CreatePostFormProps {
   handleSubmit: (data: createPostFormFields) => void | Promise<void>;
   initialValues?: Partial<createPostFormFields>;
+  editMode?: boolean;
 }
 
-export const CreatePostForm = ({ handleSubmit, initialValues }: CreatePostFormProps) => {
+export const CreatePostForm = ({ handleSubmit, initialValues, editMode }: CreatePostFormProps) => {
   const methods = useForm<createPostFormFields>({
     resolver: yupResolver(createPostFormSchema),
-    defaultValues: initialValues,
+    defaultValues: { ...initialValues, categories: initialValues?.categories || [] },
   });
 
   return (
@@ -54,7 +55,7 @@ export const CreatePostForm = ({ handleSubmit, initialValues }: CreatePostFormPr
           />
           <CategorySelect name='categories' label='Categories' />
           <SubmitButton color='primary' variant='contained' size='large' endIcon={<SendIcon />}>
-            Create Post
+            {editMode ? 'Save' : 'Create Post'}
           </SubmitButton>
         </Stack>
       </form>

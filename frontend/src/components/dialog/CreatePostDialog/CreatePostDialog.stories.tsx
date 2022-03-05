@@ -1,12 +1,10 @@
-import { Button, Container, IconButton } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import { Meta, Story } from '@storybook/react';
+import { SnackbarProvider } from 'notistack';
 import { DialogProvider, useDialog } from 'react-dialog-async';
-import { BrowserRouter } from 'react-router-dom';
 
 import CreatePostDialog, { CreatePostDialogProps } from '.';
 import { CreatePostForm } from './CreatePostForm';
-
-import SearchIcon from '../../icons/SearchIcon';
 
 export default {
   component: CreatePostDialog,
@@ -14,9 +12,11 @@ export default {
   parameters: { layout: 'centered' },
   decorators: [
     (Story) => (
-      <DialogProvider>
-        <Story />
-      </DialogProvider>
+      <SnackbarProvider>
+        <DialogProvider>
+          <Story />
+        </DialogProvider>
+      </SnackbarProvider>
     ),
   ],
 } as Meta;
@@ -27,13 +27,22 @@ const Template: Story<CreatePostDialogStoryProps> = (args) => {
   const createPostDialog = useDialog(CreatePostDialog);
 
   return (
-    <Button color='secondary' variant='contained' onClick={() => createPostDialog.show({})}>
+    <Button color='secondary' variant='contained' onClick={() => createPostDialog.show(args)}>
       Show Dialog
     </Button>
   );
 };
 
 export const Default = Template.bind({});
+export const Editing = Template.bind({});
+Editing.args = {
+  editMode: true,
+  initialValues: {
+    content:
+      'Ullamco cupidatat amet sunt aute aute do ipsum nulla proident. Ut laboris consequat culpa Lorem est. Mollit occaecat sunt mollit ipsum non aliquip sit aute tempor laborum aliquip do occaecat aute.',
+    link: 'https://google.com',
+  },
+};
 
 const FormTemplate: Story<CreatePostDialogStoryProps> = (args) => (
   <Container maxWidth='md'>
