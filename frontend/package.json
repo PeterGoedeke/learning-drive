@@ -14,6 +14,7 @@
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
     "date-fns": "^2.28.0",
+    "jest-canvas-mock": "^2.3.1",
     "notistack": "^2.0.3",
     "react": "^17.0.2",
     "react-dialog-async": "^1.0.8",

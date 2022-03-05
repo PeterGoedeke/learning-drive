@@ -20,7 +20,7 @@ export interface PostProps {
 }
 
 export const Post = ({ data, userId, onEdit }: PostProps) => {
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(data.reactions.isPersonallyLiked);
 
   const isOwner = data.user._id === userId;
 
@@ -59,7 +59,13 @@ export const Post = ({ data, userId, onEdit }: PostProps) => {
         }
       />
       <Typography sx={{ whiteSpace: 'pre-wrap' }}>{data.content}</Typography>
-      {data.resource && <PostLink url={data.resource.link} />}
+      {data.resource && (
+        <PostLink
+          url={data.resource.link}
+          imageUrl={data.resource.openGraph?.imageUrl}
+          title={data.resource.openGraph?.title}
+        />
+      )}
       <Stack direction='row' alignItems='center'>
         <Tooltip title={liked ? 'Unlike Post' : 'Like Post'}>
           <HeartButton color='secondary' filled={liked} onClick={() => setLiked((l) => !l)} />
