@@ -276,9 +276,13 @@ components:
               type: boolean
 
     Posts:
-      type: array
-      items:
-        $ref: "#/components/schemas/Post"
+      type: object
+      required:
+        - posts
+      properties:
+        posts:
+          items:
+            $ref: "#/components/schemas/Post"
 
     Categories:
       description: The list of categories to which the post belongs
