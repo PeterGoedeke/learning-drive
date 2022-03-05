@@ -30,7 +30,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Post"
+                $ref: "#/components/schemas/Posts"
         "400":
           $ref: "#/components/responses/ParseError"
 
@@ -274,6 +274,11 @@ components:
               description: Whether the current user has liked the post or not
               example: false
               type: boolean
+
+    Posts:
+      type: array
+      items:
+        $ref: "#/components/schemas/Post"
 
     Categories:
       description: The list of categories to which the post belongs
