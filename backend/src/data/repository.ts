@@ -66,6 +66,11 @@ const repository = {
         return await prisma.post.findUnique({
             where: {
                 id
+            },
+            include: {
+                user: true,
+                likedUsers: true,
+                openGraph: true
             }
         })
     },

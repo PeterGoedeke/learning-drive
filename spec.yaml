@@ -240,12 +240,6 @@ components:
               $ref: "#/components/schemas/Resource"
             openGraph:
               type: object
-              required:
-                - title
-                - type
-                - url
-                - description
-                - imageUrl
               properties:
                 title:
                   description: The name of the website
@@ -356,7 +350,7 @@ components:
     User:
       type: object
       required:
-        - id
+        - _id
         - imageUrl
         - name
         - handle
