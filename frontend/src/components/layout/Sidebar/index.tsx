@@ -16,7 +16,6 @@ import GlobeIcon from '../../icons/GlobeIcon';
 import ListIcon from '../../icons/ListIcon';
 import UserIcon from '../../icons/UserIcon';
 
-
 export const Sidebar = () => (
   <Drawer
     sx={{
@@ -32,24 +31,24 @@ export const Sidebar = () => (
       </Typography>
     </Stack>
     <Divider />
-    <Stack sx={{pl: '1vh'}}>
+    <Stack sx={{ pl: '1vh' }}>
       <List>
         <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/'>
-          <GlobeIcon />
           <ListItemButton>
-            <ListItemText primary='Global Feed' />
+            <GlobeIcon />
+            <ListItemText primary='Global Feed' sx={{ pl: '0.7vh' }} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
-          <ListIcon />
           <ListItemButton>
-            <ListItemText primary='Activity Feed' />
+            <ListIcon />
+            <ListItemText primary='Activity Feed' sx={{ pl: '0.7vh' }} />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
-          <UserIcon />
           <ListItemButton>
-            <ListItemText primary='My Account' />
+            <UserIcon />
+            <ListItemText primary='My Account' sx={{ pl: '0.7vh' }} />
           </ListItemButton>
         </ListItem>
       </List>
