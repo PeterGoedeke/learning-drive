@@ -1,4 +1,5 @@
 import { Post, User, OpenGraph } from '@prisma/client'
+import { dbUserToUserDto } from './user'
 
 type dbPost = Post & {
     user: User
@@ -6,7 +7,7 @@ type dbPost = Post & {
     openGraph?: OpenGraph
 }
 
-const dbPostToPostDto = (post: dbPost, user: User): Components.Schemas.Post => {
+export const dbPostToPostDto = (post: dbPost, user: User): Components.Schemas.Post => {
     return {
         _id: post.id,
         categories: post.categories as any, // fix length complaint
@@ -28,6 +29,6 @@ const dbPostToPostDto = (post: dbPost, user: User): Components.Schemas.Post => {
             isPersonallyLiked: post.likedUsers.includes(user),
             likes: post.likedUsers.reduce((acc, _) => acc + 1, 0)
         },
-        user
+        user: dbUserToUserDto(user)
     }
 }

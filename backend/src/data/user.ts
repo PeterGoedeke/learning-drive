@@ -5,7 +5,7 @@ type dbUser = User & {
     followers: User[]
 }
 
-const dbUserToUserDto = (user: User): Components.Schemas.User => {
+export const dbUserToUserDto = (user: User): Components.Schemas.User => {
     return {
         _id: user.id,
         handle: user.handle,
@@ -14,7 +14,7 @@ const dbUserToUserDto = (user: User): Components.Schemas.User => {
     }
 }
 
-const dbUserToUserFullProfileDto = (user: dbUser): Components.Schemas.UserFullProfile => {
+export const dbUserToUserFullProfileDto = (user: dbUser): Components.Schemas.UserFullProfile => {
     return {
         user: dbUserToUserDto(user),
         followed: user.followed.map(dbUserToUserDto),
