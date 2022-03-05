@@ -1,54 +1,60 @@
 import {
-    Drawer,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    Stack,
-    Toolbar,
-  } from '@mui/material';
-  import { NavLink } from 'react-router-dom';
-  
-  import GlobeIcon from '../../icons/GlobeIcon';
-  import ListIcon from '../../icons/ListIcon';
-  import UserIcon from '../../icons/UserIcon';
-  
-  export const Navbar = () => {
-    const lol = 0;
-    return (
-      <Drawer
-        sx={{
-          width: '100%',
-        }}
-        open={true}
-      >
-        <Stack component={Toolbar} direction='column' justifyContent='center'>
-          <List>
-            <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/global'>
-              <GlobeIcon />
-              <ListItemButton>
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  Toolbar,
+} from '@mui/material';
+import { NavLink } from 'react-router-dom';
+
+import GlobeIcon from '../../icons/GlobeIcon';
+import ListIcon from '../../icons/ListIcon';
+import UserIcon from '../../icons/UserIcon';
+
+export const Navbar = () => {
+  const lol = 0;
+  return (
+    <Drawer
+      sx={{
+        width: '100%',
+      }}
+      variant='permanent'
+      anchor='bottom'
+    >
+      <Stack component={Toolbar} direction='row' justifyContent='center'>
+        <List>
+          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/global'>
+            <ListItemButton>
+              <Stack direction='column' alignItems='center'>
+                <GlobeIcon />
                 <ListItemText primary='Global Feed' />
-              </ListItemButton>
-            </ListItem>
-          </List>
-          <List>
-            <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
-              <ListIcon />
-              <ListItemButton>
+              </Stack>
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <List>
+          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
+            <ListItemButton>
+              <Stack direction='column' alignItems='center'>
+                <ListIcon />
                 <ListItemText primary='Activity Feed' />
-              </ListItemButton>
-            </ListItem>
-          </List>
-          <List>
-            <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
-              <UserIcon />
-              <ListItemButton>
+              </Stack>
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <List>
+          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
+            <ListItemButton>
+              <Stack direction='column' alignItems='center'>
+                <UserIcon />
                 <ListItemText primary='My Account' />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Stack>
-      </Drawer>
-    );
-  };
-  
+              </Stack>
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Stack>
+    </Drawer>
+  );
+};
