@@ -1,11 +1,11 @@
-import { Stack } from '@mui/material';
+import { Stack, Theme, useMediaQuery} from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import PageHeader from '../../components/layout/PageHeader';
 import { Sidebar } from '../../components/layout/Sidebar';
 
 const Layout = () => {
-  const isDesktop = null; // set to useMediaQuery<Theme>((theme) => theme.breakpoints.up('md'));
+  const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up('md'));
   return (
     <Stack direction={'row'} sx={{ minHeight: '100vh' }}>
       <Sidebar />
