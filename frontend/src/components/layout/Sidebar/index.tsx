@@ -23,7 +23,8 @@ export const Sidebar = () => (
       width: SIDEBAR_WIDTH,
       '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
     }}
-    open={true}
+    variant='permanent'
+    anchor='left'
   >
     <Stack component={Toolbar} direction='row' justifyContent='center'>
       <Typography variant='h4' component='h1' gutterBottom>
