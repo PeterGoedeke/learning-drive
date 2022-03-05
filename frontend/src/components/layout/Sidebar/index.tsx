@@ -23,6 +23,7 @@ export const Sidebar = () => (
       width: SIDEBAR_WIDTH,
       '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
     }}
+    open={true}
   >
     <Stack component={Toolbar} direction='row' justifyContent='center'>
       <Typography variant='h4' component='h1' gutterBottom>
@@ -32,7 +33,7 @@ export const Sidebar = () => (
     <Divider />
     <Stack>
       <List>
-        <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/global'>
+        <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/'>
           <GlobeIcon />
           <ListItemButton>
             <ListItemText primary='Global Feed' />
