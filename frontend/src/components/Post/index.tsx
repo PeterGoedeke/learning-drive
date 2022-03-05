@@ -15,9 +15,11 @@ export interface PostProps {
   data: PostData;
   // The id of the authenticated user
   userId: number;
+
+  onEdit?: (data: PostData) => void;
 }
 
-export const Post = ({ data, userId }: PostProps) => {
+export const Post = ({ data, userId, onEdit }: PostProps) => {
   const [liked, setLiked] = useState(false);
 
   const isOwner = data.user._id === userId;
@@ -45,7 +47,11 @@ export const Post = ({ data, userId }: PostProps) => {
         action={
           isOwner && (
             <Tooltip title='Edit Post'>
-              <IconButton sx={{ color: 'white', mt: 1, mr: 1 }} size='small'>
+              <IconButton
+                sx={{ color: 'white', mt: 1, mr: 1 }}
+                size='small'
+                onClick={() => onEdit && onEdit(data)}
+              >
                 <EditIcon fontSize='inherit' />
               </IconButton>
             </Tooltip>
