@@ -58,6 +58,20 @@ const updatePostHandler: updatePost = async (req, res) => {
 
 export const updatePost = asyncHandler(updatePostHandler)
 
-const reactToPostHandler: reactToPost = async (req, res) => {}
+const reactToPostHandler: reactToPost = async (req, res) => {
+    const postId = Number(req.params.postId)
+
+    try {
+        if (req.body.liked) {
+            await repository.likePost(req.userId, postId)
+        } else {
+            await repository.unlikePost(req.userId, postId)
+        }
+    } catch (error) {
+        return res.status(StatusCodes.NOT_FOUND).end()
+    }
+
+    return res.status(StatusCodes.NO_CONTENT).end()
+}
 
 export const reactToPost = asyncHandler(reactToPostHandler)
