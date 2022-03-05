@@ -1,9 +1,10 @@
-import { Button, IconButton } from '@mui/material';
+import { Button, Container, IconButton } from '@mui/material';
 import { Meta, Story } from '@storybook/react';
 import { DialogProvider, useDialog } from 'react-dialog-async';
 import { BrowserRouter } from 'react-router-dom';
 
 import CreatePostDialog, { CreatePostDialogProps } from '.';
+import { CreatePostForm } from './CreatePostForm';
 
 import SearchIcon from '../../icons/SearchIcon';
 
@@ -33,3 +34,11 @@ const Template: Story<CreatePostDialogStoryProps> = (args) => {
 };
 
 export const Default = Template.bind({});
+
+const FormTemplate: Story<CreatePostDialogStoryProps> = (args) => (
+  <Container maxWidth='md'>
+    <CreatePostForm handleSubmit={() => {}} />
+  </Container>
+);
+
+export const FormOnly = FormTemplate.bind({ parameters: { layout: 'fullscreen' } });

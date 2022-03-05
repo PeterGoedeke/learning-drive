@@ -16,11 +16,13 @@ import SendIcon from '../../../icons/SendIcon';
 
 interface CreatePostFormProps {
   handleSubmit: (data: createPostFormFields) => void | Promise<void>;
+  initialValues?: Partial<createPostFormFields>;
 }
 
-export const CreatePostForm = ({ handleSubmit }: CreatePostFormProps) => {
+export const CreatePostForm = ({ handleSubmit, initialValues }: CreatePostFormProps) => {
   const methods = useForm<createPostFormFields>({
     resolver: yupResolver(createPostFormSchema),
+    defaultValues: initialValues,
   });
 
   return (
