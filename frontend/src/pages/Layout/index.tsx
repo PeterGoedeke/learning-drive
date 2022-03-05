@@ -9,14 +9,16 @@ const Layout = () => {
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up('md'));
   return (
     <Stack direction={'row'} sx={{ minHeight: '100vh' }}>
-      {/* {isDesktop && (
-        <Stack flexGrow={1}>
-          <Sidebar />
-          <PageHeader title={'I Dunno man do some logic for which page here'} />
-          <Outlet />
-        </Stack>
-      )} */}
       {isDesktop && (
+        <>
+          <Sidebar />
+          <Stack flexGrow={1}>
+            <PageHeader title={'I Dunno man do some logic for which page here'} />
+            <Outlet />
+          </Stack>
+        </>
+      )}
+      {!isDesktop && (
         <Stack flexGrow={1}>
           <PageHeader title={'I Dunno man do some logic for which page here'} />
           <Outlet />

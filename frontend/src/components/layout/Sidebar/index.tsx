@@ -32,7 +32,7 @@ export const Sidebar = () => (
       </Typography>
     </Stack>
     <Divider />
-    <Stack>
+    <Stack sx={{pl: '1vh'}}>
       <List>
         <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/'>
           <GlobeIcon />
@@ -40,16 +40,12 @@ export const Sidebar = () => (
             <ListItemText primary='Global Feed' />
           </ListItemButton>
         </ListItem>
-      </List>
-      <List>
         <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
           <ListIcon />
           <ListItemButton>
             <ListItemText primary='Activity Feed' />
           </ListItemButton>
         </ListItem>
-      </List>
-      <List>
         <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
           <UserIcon />
           <ListItemButton>
