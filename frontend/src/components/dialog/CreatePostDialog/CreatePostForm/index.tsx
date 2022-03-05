@@ -27,12 +27,21 @@ export const CreatePostForm = ({ handleSubmit }: CreatePostFormProps) => {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleSubmit)}>
         <Stack spacing={2} sx={{ mt: 1 }}>
-          <TextField required name='content' size='small' label='Message' multiline rows={4} />
+          <TextField
+            required
+            name='content'
+            size='small'
+            label='Message'
+            multiline
+            rows={4}
+            autoComplete={'off'}
+          />
           <TextField
             name='link'
             size='small'
             label='Link'
             placeholder='https://example.com/'
+            autoComplete={'off'}
             InputProps={{
               endAdornment: (
                 <Tooltip title='Add a link to a website such as an article or blog post that relates to your post'>

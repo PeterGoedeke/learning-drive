@@ -13,7 +13,7 @@ const CreatePostDialog = ({ open, handleClose }: AsyncDialogProps<CreatePostDial
     open={open}
     onClose={() => handleClose()}
     fullWidth
-    maxWidth='xs'
+    maxWidth='sm'
   >
     <DialogHeader onClose={() => handleClose()}>Create Post</DialogHeader>
     <DialogContent>
