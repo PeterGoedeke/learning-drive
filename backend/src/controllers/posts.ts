@@ -1,10 +1,9 @@
 import { Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes'
 import asyncHandler from 'express-async-handler'
-import Logger from '../util/logger'
 import { ParamsDictionary } from 'express-serve-static-core/index'
-import repository from '../data/repository'
+import { StatusCodes } from 'http-status-codes'
 import { dbPostToPostDto } from '../data/post'
+import repository from '../data/repository'
 
 type getPosts = (
     req: Request<ParamsDictionary, {}, Paths.GetPosts.RequestBody>,

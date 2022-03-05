@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes'
 import asyncHandler from 'express-async-handler'
-import Logger from '../util/logger'
-import { ParamsDictionary } from 'express-serve-static-core/index'
+import { StatusCodes } from 'http-status-codes'
 import repository from '../data/repository'
 import { dbUserToUserFullProfileDto } from '../data/user'
 

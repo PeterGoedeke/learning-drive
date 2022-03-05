@@ -1,7 +1,6 @@
-import prisma from './db'
-import { Prisma, Post, User, Category } from '@prisma/client'
-import getOpenGraph from '../util/get-open-graph'
 import { UserRecord } from 'firebase-admin/auth'
+import getOpenGraph from '../util/get-open-graph'
+import prisma from './db'
 
 const repository = {
     async createPost(userId: string, post: Components.Schemas.CreatePost) {
