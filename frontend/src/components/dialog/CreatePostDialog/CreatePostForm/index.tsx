@@ -12,6 +12,7 @@ import { CategorySelect } from '../../../form/CategorySelect';
 import { SubmitButton } from '../../../form/SubmitButton';
 import TextField from '../../../form/TextField';
 import HelpIcon from '../../../icons/HelpIcon';
+import SaveIcon from '../../../icons/SaveIcon';
 import SendIcon from '../../../icons/SendIcon';
 
 interface CreatePostFormProps {
@@ -54,7 +55,12 @@ export const CreatePostForm = ({ handleSubmit, initialValues, editMode }: Create
             }}
           />
           <CategorySelect name='categories' label='Categories' />
-          <SubmitButton color='primary' variant='contained' size='large' endIcon={<SendIcon />}>
+          <SubmitButton
+            color='primary'
+            variant='contained'
+            size='large'
+            endIcon={editMode ? <SaveIcon /> : <SendIcon />}
+          >
             {editMode ? 'Save' : 'Create Post'}
           </SubmitButton>
         </Stack>

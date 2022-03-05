@@ -45,7 +45,11 @@ const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePo
         {data.editMode ? 'Edit Post' : 'Create Post'}
       </DialogHeader>
       <DialogContent>
-        <CreatePostForm handleSubmit={handleSubmit} initialValues={data.initialValues} />
+        <CreatePostForm
+          editMode={data.editMode}
+          handleSubmit={handleSubmit}
+          initialValues={data.initialValues}
+        />
       </DialogContent>
     </Dialog>
   );
