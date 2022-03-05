@@ -25,11 +25,11 @@ export const Navbar = () => {
     >
       <Stack component={Toolbar} direction='row' justifyContent='center'>
         <List>
-          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/global'>
+          <ListItem disablePadding component={NavLink} sx={{ color: 'white'}} to='/'>
             <ListItemButton>
               <Stack direction='column' alignItems='center'>
                 <GlobeIcon />
-                <ListItemText primary='Global Feed' />
+                <ListItemText primary='Global Feed'/>
               </Stack>
             </ListItemButton>
           </ListItem>
