@@ -44,7 +44,17 @@ const getPostByIdHandler: getPostById = async (req, res) => {
 
 export const getPostById = asyncHandler(getPostByIdHandler)
 
-const updatePostHandler: updatePost = async (req, res) => {}
+const updatePostHandler: updatePost = async (req, res) => {
+    const postId = Number(req.params.id)
+
+    const response = await repository.updatePost(postId, req.body)
+
+    if (response === null) {
+        return res.status(StatusCodes.NOT_FOUND).end()
+    }
+
+    return res.status(StatusCodes.NO_CONTENT).end()
+}
 
 export const updatePost = asyncHandler(updatePostHandler)
 
