@@ -1,0 +1,489 @@
+openapi: 3.0.0
+info:
+  version: "1.0"
+  title: Learning drive
+  description: Learning drive application
+servers:
+  - url: "http://localhost:5000"
+
+security:
+  - FirebaseAuth: []
+
+paths:
+  "/getPosts":
+    post:
+      summary: Get posts
+      description: Get posts for the various feeds. Request body fields allow for search and control of pagination.
+      tags: [posts]
+      x-eov-operation-id: get
+      x-eov-operation-handler: posts
+      operationId: getPosts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetPostQuery"
+      responses:
+        "200":
+          description: The list of posts.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Posts"
+        "400":
+          $ref: "#/components/responses/ParseError"
+
+  "/posts":
+    post:
+      summary: Create a post
+      description: Create a post
+      tags: [posts]
+      x-eov-operation-id: post
+      x-eov-operation-handler: posts
+      operationId: createPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePost"
+      responses:
+        "201":
+          description: Successfully created the post
+          headers:
+            Location:
+              schema:
+                type: string
+        "400":
+          $ref: "#/components/responses/ParseError"
+
+  "/posts/{id}":
+    get:
+      summary: Get a post.
+      description: Get detailed information about a post.
+      tags: [posts]
+      x-eov-operation-id: get
+      x-eov-operation-handler: posts-id
+      operationId: getPostById
+      parameters:
+        - $ref: "#/components/parameters/IDParam"
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+    put:
+      summary: Edit a post.
+      description: Change the content of one of your own posts
+      tags: [posts]
+      x-eov-operation-id: put
+      x-eov-operation-handler: posts-id
+      operationId: updatePost
+      parameters:
+        - $ref: "#/components/parameters/IDParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePost"
+      responses:
+        "204":
+          description: The put was applied successfully.
+        "400":
+          $ref: "#/components/responses/ParseError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+    patch:
+      summary: React to a post.
+      description: Add or remove your reaction to a post (currently, whether you have liked the post or not)
+      tags: [posts]
+      x-eov-operation-id: patch
+      x-eov-operation-handler: posts-id
+      operationId: reactToPost
+      parameters:
+        - $ref: "#/components/parameters/IDParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReactToPost"
+      responses:
+        "204":
+          description: The patch was applied successfully.
+        "400":
+          $ref: "#/components/responses/ParseError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  "/users/{id}":
+    get:
+      summary: Get a user.
+      description: Get detailed information about a user.
+      tags: [users]
+      x-eov-operation-id: get
+      x-eov-operation-handler: users-id
+      operationId: getUserById
+      parameters:
+        - $ref: "#/components/parameters/IDParam"
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserFullProfile"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
+  "/categories":
+    get:
+      summary: Get categories
+      description: Get a list of all possible categories a post can be categorized under
+      tags: [categories]
+      x-eov-operation-id: get
+      x-eov-operation-handler: categories
+      operationId: getCategories
+      responses:
+        "200":
+          description: The list of categories.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllCategories"
+
+    post:
+      summary: Create a category
+      description: Create a category
+      tags: [categories]
+      x-eov-operation-id: post
+      x-eov-operation-handler: categories
+      operationId: createCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCategory"
+      responses:
+        "201":
+          description: Successfully created the category
+          headers:
+            Location:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - category
+                properties:
+                  category:
+                    description: The new category after formatting by the backend (e.g. ensuring reasonable usage of whitespace)
+                    type: string
+                    example: TypeScript
+        "400":
+          $ref: "#/components/responses/ParseError"
+
+components:
+  securitySchemes:
+    FirebaseAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Post:
+      type: object
+      required:
+        - _id
+        - user
+        - timestampCreated
+        - timestampModified
+        - categories
+        - content
+        - reactions
+      properties:
+        _id:
+          description: The unique identifier of the post
+          example: 5
+          type: integer
+        user:
+          $ref: "#/components/schemas/User"
+        timestampCreated:
+          description: The time at which the post was made, as milliseconds past the unix epoch
+          example: 1646339331193
+          type: integer
+        timestampModified:
+          description: The time at which the post was most recently edited, as milliseconds past the unix epoch
+          example: 1646339331193
+          type: integer
+        categories:
+          $ref: "#/components/schemas/Categories"
+        content:
+          $ref: "#/components/schemas/Content"
+        resource:
+          type: object
+          required:
+            - link
+          properties:
+            link:
+              $ref: "#/components/schemas/Resource"
+            openGraph:
+              type: object
+              properties:
+                title:
+                  description: The name of the website
+                  example: "GitHub - PeterGoedeke/blocked: https://blockedgame.live"
+                  type: string
+                url:
+                  description: The url which the request was sent to
+                  example: "https://github.com/PeterGoedeke/blocked"
+                  type: string
+                  format: url
+                description:
+                  description: The description of the website
+                  example: "https://blockedgame.live. Contribute to PeterGoedeke/blocked development by creating an account on GitHub."
+                  type: string
+                imageUrl:
+                  description: The URL of the open graph image
+                  example: "https://repository-images.githubusercontent.com/422754120/03c53f9e-6306-4eb8-a2f4-6886041be39e"
+                  type: string
+                  format: url
+        reactions:
+          description: The various types of reactions which have been made to this post. Currently, only likes are supported
+          type: object
+          required:
+            - likes
+            - isPersonallyLiked
+          properties:
+            likes:
+              description: The number of times which people have liked a post
+              example: 52
+              type: integer
+            isPersonallyLiked:
+              description: Whether the current user has liked the post or not
+              example: false
+              type: boolean
+
+    Posts:
+      type: object
+      required:
+        - posts
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Post"
+
+    Categories:
+      description: The list of categories to which the post belongs
+      type: array
+      items:
+        $ref: "#/components/schemas/Category"
+      minItems: 0
+      maxItems: 3
+
+    Content:
+      description: The string body of the post, as written by the user
+      example: Today I learnt about the introduction of xvalues to value categories in C++
+      type: string
+      minLength: 10
+      maxLength: 250
+
+    Resource:
+      description: The resource attached to the post by the user. This is an optional field
+      example: https://en.cppreference.com/w/cpp/language/value_category
+      type: string
+      format: url
+
+    CreatePost:
+      type: object
+      required:
+        - categories
+        - content
+      properties:
+        categories:
+          $ref: "#/components/schemas/Categories"
+        content:
+          $ref: "#/components/schemas/Content"
+        resource:
+          $ref: "#/components/schemas/Resource"
+
+    ReactToPost:
+      type: object
+      required:
+        - liked
+      properties:
+        liked:
+          description: Whether the user does or does not like the post
+          example: true
+          type: boolean
+
+    Category:
+      description: A category under which a post can be categorized
+      example: C++
+      type: string
+      maxLength: 20
+
+    CreateCategory:
+      type: object
+      required:
+        - category
+      properties:
+        category:
+          description: A category under which a post can be categorized
+          example: C++
+          type: string
+          maxLength: 20
+
+    AllCategories:
+      type: object
+      required:
+        - categories
+      properties:
+        categories:
+          type: array
+          example: ["C++", "React", "Redux", "JavaScript", "TypeScript"]
+          items:
+            $ref: "#/components/schemas/Category"
+
+    User:
+      type: object
+      required:
+        - _id
+        - imageUrl
+        - name
+        - handle
+      properties:
+        _id:
+          description: The unique identifier of the user
+          example: 7234a92f-185a-4e86-8276-54e3fa7b67c6
+          type: string
+        imageUrl:
+          description: The url of the profile picture of the user
+          example: https://firebase/learning-drive/cool-image.png
+          type: string
+          format: url
+        name:
+          description: The real-life name of the user
+          example: Peter Goedeke
+          type: string
+        handle:
+          description: The unique handle of the user used to directly add other users, generated by the backend
+          example: Peter#5678
+          type: string
+
+    UserFullProfile:
+      type: object
+      required:
+        - user
+        - followers
+        - followerCount
+        - followed
+        - followedCount
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        followers:
+          description: The list of all the users who follow the user in question
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        followerCount:
+          description: The number of users who follow the user in question
+          example: 2
+          type: integer
+        followed:
+          description: The list of all the users followed by the user in question
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        followedCount:
+          description: The number of users followed by the user in question
+          example: 2
+          type: integer
+
+    Error:
+      description: Schema which represents the JSON returned for errors and other conditions which expect status updates.
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: The status message.
+          example: Invalid request.
+          type: string
+
+    GetPostQuery:
+      type: object
+      properties:
+        searchQuery:
+          description: Return only posts containing this substring in their content
+          example: today I learned
+          type: string
+        searchCategories:
+          description: Return only posts which belong to all categories specified
+          example: [React, Redux]
+          type: array
+          items:
+            type: string
+        userIdQuery:
+          description: Return only posts which were posted by this user
+          example: 7234a92f-185a-4e86-8276-54e3fa7b67c6
+          type: string
+        offset:
+          description: Used for pagination; must be used in conjunction with the `pageSize` field. Represents the page number the request is for, given the page size specified by the `pageSize` field. 0 indexed
+          example: 2
+          type: integer
+        pageSize:
+          description: Used for pagination; must be used in conjunction with the `offset` field. Represents the number of items which should be included per page. Multiple categories should be separated by commas.
+          example: 10
+          type: integer
+
+  responses:
+    UnauthorizedError:
+      description: The user did not have the required privileges to access the resource.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            message: Unauthorized to access resource.
+
+    NotFoundError:
+      description: The requested resource was not found at the URI.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            message: Resource could not be found.
+
+    ParseError:
+      description: The server failed to parse the request.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  parameters:
+    IDParam:
+      name: id
+      in: path
+      required: true
+      example: "3"
+      description: The id of the object in the path
+      schema:
+        example: "3"
+        type: string
+        pattern: '^[\d]*$'
