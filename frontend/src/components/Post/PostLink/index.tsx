@@ -14,7 +14,7 @@ export const PostLink = ({ url, title, imageUrl }: PostLinkProps) => {
   const [, sitename] = siteNameRegex.exec(url) || [];
 
   return (
-    <Card sx={{ mt: 2, overflow: 'hidden' }}>
+    <Card sx={{ mt: 2, overflow: 'hidden' }} elevation={0}>
       <CardActionArea
         sx={{
           display: 'flex',

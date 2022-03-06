@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import { useDialog } from 'react-dialog-async';
 
 import SearchPostsDialog from '../components/dialog/SearchPostsDialog';
 
 import { postsSearchFilter } from '../utils/schema/searchPostsSchema';
+import { useQueryState } from './useQueryState';
 
 export const useSearch = () => {
-  const [search, setSearch] = useState<postsSearchFilter>({});
+  const [search, setSearch] = useQueryState<postsSearchFilter>('search', {});
   const searchPostsDialog = useDialog(SearchPostsDialog);
 
   const handleSearch = async () => {

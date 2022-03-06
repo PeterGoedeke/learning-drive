@@ -29,17 +29,20 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
+    // Add the id token to any axios requests made
+    axios.interceptors.request.use(async (config) => {
+      const token = await auth.currentUser?.getIdToken();
+      if (token) {
+        (config.headers as any).Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+  }, []);
+
+  useEffect(() => {
     auth.onAuthStateChanged((user) => {
       setUser(user || undefined);
       setHydrated(true);
-    });
-    // Add the id token to any axios requests made
-    auth.onIdTokenChanged(async (user) => {
-      axios.interceptors.request.use(async (config) => {
-        const token = await user?.getIdToken();
-        (config.headers as any).Authorization = `Bearer ${token}`;
-        return config;
-      });
     });
   }, [auth]);
 

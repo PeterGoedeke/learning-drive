@@ -30,19 +30,25 @@ export const usePostFeed = ({ pageSize = 10, filter = {} }: usePostFeedOpts = {}
   const { data, size, setSize } = useSWRInfinite(
     (pageIndex, prevPageData) => {
       if (pageIndex && prevPageData.length < pageSize) {
-        setHasMore(false);
         return null;
       }
       return queryKey.POSTS(pageIndex, filter);
     },
-    async (_, page) =>
-      (
+    async (_, page) => {
+      const posts = (
         await postsApi.getPosts({
           pageSize,
           offset: page,
           ...filter,
         })
-      ).data.posts
+      ).data.posts;
+
+      if (posts.length < 10) {
+        setHasMore(false);
+      }
+
+      return posts;
+    }
   );
 
   // Turn array of pages of posts into just an array of posts

@@ -1,12 +1,16 @@
-import { Typography } from '@mui/material';
+import { Button } from '@mui/material';
 
 import { Page } from '../../components/layout/Page';
 
+import { useAuth } from '../../hooks/useAuth';
+
 const AccountPage = () => {
-  const yup = 0;
+  const { signOut } = useAuth();
   return (
     <Page title='Account'>
-      <Typography>global page</Typography>
+      <Button onClick={() => signOut()} variant='contained' color='secondary' sx={{ m: 2 }}>
+        Sign Out
+      </Button>
     </Page>
   );
 };
