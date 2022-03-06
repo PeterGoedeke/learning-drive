@@ -1,3 +1,4 @@
+import { OpenGraph, Post } from '@prisma/client'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import { ParamsDictionary } from 'express-serve-static-core/index'
@@ -30,6 +31,15 @@ const getPostsHandler: getPosts = async (req, res) => {
 export const getPosts = asyncHandler(getPostsHandler)
 
 const createPostsHandler: createPosts = async (req, res) => {
+    const promises: [Promise<{ count: number }>, Promise<OpenGraph>?] = [
+        repository.ensureCategoriesExist(req.body.categories as string[])
+    ]
+
+    if (req.body.resource) {
+        promises.push(repository.getOrCreateOpenGraph(req.body.resource))
+    }
+
+    await Promise.all(promises)
     const response = await repository.createPost(req.userId, req.body)
 
     return res.status(StatusCodes.CREATED).end()

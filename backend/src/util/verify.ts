@@ -10,7 +10,6 @@ initializeApp({
 
 const log = Logger.getLogger('verification')
 
-// function used to determine user authentication
 export default async (token: string) => {
     try {
         const decodedToken = await getAuth().verifyIdToken(token)
