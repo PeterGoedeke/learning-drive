@@ -46,6 +46,7 @@
     },
     "dependencies": {
         "@prisma/client": "^2.27.0",
+        "axios": "^0.26.0",
         "cron": "^1.8.2",
         "debug": "^4.3.2",
         "dotenv": "^10.0.0",

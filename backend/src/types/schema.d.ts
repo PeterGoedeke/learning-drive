@@ -241,7 +241,7 @@ declare namespace Components {
             /**
              * The unique identifier of the user
              * example:
-             * 7234a92f-185a-4e86-8276-54e3fa7b67c6
+             * 6SZoYTBzY6ewF5Rkko7hi1QMF8C3
              */
             _id: string;
             /**
