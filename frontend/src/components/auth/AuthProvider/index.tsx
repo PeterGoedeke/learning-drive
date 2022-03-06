@@ -33,6 +33,7 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
       setUser(user || undefined);
       setHydrated(true);
     });
+    // Add the id token to any axios requests made
     auth.onIdTokenChanged(async (user) => {
       const token = await user?.getIdToken();
       if (token) {

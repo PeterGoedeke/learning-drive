@@ -9,6 +9,7 @@ import {
 import { Controller, useFormContext } from 'react-hook-form';
 import useSWR from 'swr';
 
+import { categoriesApi } from '../../../api';
 import { queryKey } from '../../../utils/queryKeys';
 
 export interface CategorySelectProps {
@@ -34,7 +35,12 @@ export const CategorySelect = ({ name, label, placeholder, allowCreate }: Catego
 
   const error = errors[name];
 
-  const query = useSWR(queryKey.CATEGORIES, async () => TEMP_CATEGORIES);
+  const query = useSWR(queryKey.CATEGORIES, async () =>
+    (await categoriesApi.getCategories()).data.categories.map((c) => ({
+      key: c.toLowerCase(),
+      text: c,
+    }))
+  );
 
   const handleCreateNewCategory = (value: string) => {
     const category: Category = { key: value.toLowerCase(), text: value };
@@ -114,9 +120,3 @@ export const CategorySelect = ({ name, label, placeholder, allowCreate }: Catego
     </Box>
   );
 };
-
-const TEMP_CATEGORIES = [
-  { key: 'ai', text: 'AI' },
-  { key: 'css', text: 'CSS' },
-  { key: 'html', text: 'HTML' },
-];
