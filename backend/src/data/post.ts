@@ -29,6 +29,6 @@ export const dbPostToPostDto = (post: dbPost, user: User): Components.Schemas.Po
             isPersonallyLiked: post.likedUsers.map(user => user.id).includes(user.id),
             likes: post.likedUsers.reduce((acc, _) => acc + 1, 0)
         },
-        user: dbUserToUserDto(user)
+        user: dbUserToUserDto(post.user)
     }
 }
