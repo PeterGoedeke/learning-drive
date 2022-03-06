@@ -18,8 +18,12 @@ import SearchIcon from '../../components/icons/SearchIcon';
 import WriteIcon from '../../components/icons/WriteIcon';
 import { Page } from '../../components/layout/Page';
 
+import { useSearch } from '../../hooks/useSearch';
+
 const ActivityPage = () => {
   const createPostDialog = useDialog(CreatePostDialog);
+
+  const { search, refineSearch } = useSearch();
 
   const handleCreatePost = async () => {
     await createPostDialog.show({});
@@ -29,7 +33,7 @@ const ActivityPage = () => {
     <Page
       title='Activity Feed'
       action={
-        <IconButton color='secondary'>
+        <IconButton color='secondary' onClick={refineSearch}>
           <SearchIcon />
         </IconButton>
       }
@@ -53,7 +57,7 @@ const ActivityPage = () => {
         </CardActionArea>
       </Card>
       <Divider />
-      <PostFeed />
+      <PostFeed filter={search} />
     </Page>
   );
 };
