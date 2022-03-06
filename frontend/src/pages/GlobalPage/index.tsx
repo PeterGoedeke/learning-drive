@@ -11,14 +11,16 @@ import {
 import { useDialog } from 'react-dialog-async';
 
 import CreatePostDialog from '../../components/dialog/CreatePostDialog';
+import { EndOfFeed } from '../../components/feed/EndOfFeed';
 import PlusIcon from '../../components/icons/PlusIcon';
+import SadBoxIcon from '../../components/icons/SadBoxIcon';
 import SearchIcon from '../../components/icons/SearchIcon';
 import WriteIcon from '../../components/icons/WriteIcon';
 import { Page } from '../../components/layout/Page';
 import { PageDivider } from '../../components/layout/Page/PageDivider';
 import { Post } from '../../components/Post';
 import { PostSkeleton } from '../../components/Post/PostSkeleton';
-import { post1 } from '../../components/Post/testData';
+import { post1, post2 } from '../../components/Post/testData';
 
 const GlobalPage = () => {
   const createPostDialog = useDialog(CreatePostDialog);
@@ -56,12 +58,15 @@ const GlobalPage = () => {
       <PageDivider />
       <Post data={post1} userId='123' />
       <PageDivider />
-      <PostSkeleton />
+      <Post data={post2} userId='124' />
       <PageDivider />
       <PostSkeleton />
       <PageDivider />
       <PostSkeleton />
       <PageDivider />
+      <PostSkeleton />
+      <PageDivider />
+      <EndOfFeed />
     </Page>
   );
 };

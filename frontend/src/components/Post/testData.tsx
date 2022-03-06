@@ -28,8 +28,8 @@ export const post2: Post = {
   },
   timestampCreated: new Date(2021, 5, 3).getTime(),
   timestampModified: new Date(2021, 5, 3).getTime(),
-  categories: ['AI', 'Machine Learning'],
-  content: `Consectetur incididunt aliquip officia et ad dolore esse culpa consequat enim fugiat aute esse velit. Mollit id dolore aliquip ad aute aute exercitation laboris in labore duis nostrud non minim.\n\nAute ipsum duis eu excepteur consequat duis ipsum eiusmod excepteur. Esse officia consequat enim exercitation. Minim excepteur mollit non est aliqua qui in qui.`,
+  categories: ['HTML', 'CSS', 'UI/UXd'],
+  content: `Consectetur incididunt aliquip officia et ad dolore esse culpa consequat enim fugiat aute esse velit. Mollit id dolore aliquip ad aute aute exercitation laboris in labore duis nostrud non minim.`,
   reactions: {
     likes: 3,
     isPersonallyLiked: false,

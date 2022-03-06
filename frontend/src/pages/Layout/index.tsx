@@ -1,30 +1,28 @@
-import { Stack, useMediaQuery, Theme } from '@mui/material';
+import { Stack, useMediaQuery, Theme, Container, Divider } from '@mui/material';
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { Navbar } from '../../components/layout/Navbar';
-import PageHeader from '../../components/layout/PageHeader';
 import { Sidebar } from '../../components/layout/Sidebar';
+import { Loading } from '../../components/Loading';
 
 const Layout = () => {
   const isDesktop = useMediaQuery<Theme>((theme) => theme.breakpoints.up('md'));
   return (
-    <Stack direction={'row'} sx={{ minHeight: '100vh' }}>
-      {isDesktop ? (
-        <>
-          <Sidebar />
-          <Stack flexGrow={1}>
-            <PageHeader title={'I Dunno man do some logic for which page here'} />
-            <Outlet />
-          </Stack>
-        </>
-      ) : (
+    <Container disableGutters maxWidth='md'>
+      <Stack direction={'row'} sx={{ minHeight: '100vh' }}>
+        {isDesktop && <Sidebar />}
+        <Divider orientation='vertical' flexItem />
         <Stack flexGrow={1}>
-          <PageHeader title={'I Dunno man do some logic for which page here'} />
-          <Outlet />
-          <Navbar />
+          <Suspense fallback={<Loading />}>
+            <Outlet />
+          </Suspense>
+          {!isDesktop && <Navbar />}
         </Stack>
-      )}
-    </Stack>
+
+        <Divider orientation='vertical' flexItem />
+      </Stack>
+    </Container>
   );
 };
 
