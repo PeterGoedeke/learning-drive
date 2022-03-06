@@ -367,7 +367,7 @@ components:
       properties:
         _id:
           description: The unique identifier of the user
-          example: 7234a92f-185a-4e86-8276-54e3fa7b67c6
+          example: 6SZoYTBzY6ewF5Rkko7hi1QMF8C3
           type: string
         imageUrl:
           description: The url of the profile picture of the user

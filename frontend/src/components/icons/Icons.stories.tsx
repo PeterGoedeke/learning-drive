@@ -8,8 +8,10 @@ import FacebookIcon from './FacebookIcon';
 import GithubIcon from './GithubIcon';
 import GlobeIcon from './GlobeIcon';
 import GoogleIcon from './GoogleIcon';
+import HelpIcon from './HelpIcon';
 import ListIcon from './ListIcon';
 import PlusIcon from './PlusIcon';
+import SaveIcon from './SaveIcon';
 import SearchIcon from './SearchIcon';
 import SendIcon from './SendIcon';
 import UserIcon from './UserIcon';
@@ -48,9 +50,11 @@ export const Default: Story<SvgIconProps> = (args) => (
     <SendIcon {...args} />
     <UserIcon {...args} />
     <WriteIcon {...args} />
+    <HelpIcon {...args} />
     <GoogleIcon {...args} />
     <FacebookIcon {...args} />
     <GithubIcon {...args} />
+    <SaveIcon {...args} />
   </Box>
 );
 
@@ -79,3 +83,7 @@ export const Github: ComponentStory<typeof GithubIcon> = (args) => <GithubIcon {
 export const Facebook: ComponentStory<typeof FacebookIcon> = (args) => <FacebookIcon {...args} />;
 
 export const Google: ComponentStory<typeof GoogleIcon> = (args) => <GoogleIcon {...args} />;
+
+export const Help: ComponentStory<typeof HelpIcon> = (args) => <HelpIcon {...args} />;
+
+export const Save: ComponentStory<typeof SaveIcon> = (args) => <SaveIcon {...args} />;

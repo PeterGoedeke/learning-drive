@@ -1,10 +1,12 @@
-import { RouteObject } from 'react-router-dom';
+import { lazy } from 'react';
+import { Navigate, RouteObject } from 'react-router-dom';
 
-import AccountPage from '../pages/AccountPage';
-import ActivityPage from '../pages/ActivityPage';
-import GlobalPage from '../pages/GlobalPage';
 import Layout from '../pages/Layout';
 import LoginPage from '../pages/LoginPage';
+
+const AccountPage = lazy(() => import('../pages/AccountPage'));
+const ActivityPage = lazy(() => import('../pages/ActivityPage'));
+const GlobalPage = lazy(() => import('../pages/GlobalPage'));
 
 export const buildRoutes = (isAuthenticated: boolean): RouteObject[] => {
   if (isAuthenticated) {
@@ -24,6 +26,10 @@ export const buildRoutes = (isAuthenticated: boolean): RouteObject[] => {
       {
         path: '/',
         element: <LoginPage />,
+      },
+      {
+        path: '*',
+        element: <Navigate to='/' />,
       },
     ];
   }

@@ -14,6 +14,7 @@ const darkTheme = createTheme(baseTheme, {
       light: '#FFEE53',
       main: '#FFBC11',
       dark: '#C78C00',
+      contrastText: '#271933',
     },
     error: {
       light: '#EC636C',

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { FirebaseApp } from 'firebase/app';
 import {
   FacebookAuthProvider,
@@ -10,6 +11,8 @@ import {
 import { useSnackbar } from 'notistack';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
+import { Loading } from '../../Loading';
+
 import { AuthContext, AuthContextState } from '../../../context/AuthContext';
 
 interface AuthProviderProps {
@@ -18,6 +21,9 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthProviderProps>) => {
   const auth = getAuth(firebaseApp);
+
+  const [hydrated, setHydrated] = useState(false);
+
   const { enqueueSnackbar } = useSnackbar();
 
   const [user, setUser] = useState<User>();
@@ -25,15 +31,26 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       setUser(user || undefined);
+      setHydrated(true);
+    });
+    // Add the id token to any axios requests made
+    auth.onIdTokenChanged(async (user) => {
+      axios.interceptors.request.use(async (config) => {
+        const token = await user?.getIdToken();
+        (config.headers as any).Authorization = `Bearer ${token}`;
+        return config;
+      });
     });
   }, [auth]);
 
   const ctx: AuthContextState = useMemo(() => {
     const providerSignInFactory = (provider: any) => async () => {
       try {
+        setHydrated(false);
         await signInWithPopup(auth, provider);
       } catch (error: any) {
         enqueueSnackbar(error.message, { variant: 'error' });
+        setHydrated(true);
       }
     };
 
@@ -56,5 +73,8 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
     };
   }, [auth, enqueueSnackbar, user]);
 
+  if (!hydrated) {
+    return <Loading />;
+  }
   return <AuthContext.Provider value={ctx}>{children}</AuthContext.Provider>;
 };

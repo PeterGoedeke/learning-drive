@@ -18,7 +18,7 @@ console.log(`Generating client API from spec at ${specURL}`);
 
 // Generate the client api
 exec(
-  `openapi-generator-cli generate -g typescript-axios --additional-properties=useSingleRequestParameter=true,withoutPrefixEnums=true, -i ${specURL} -o ${tempDir}`,
+  `openapi-generator-cli generate -g typescript-axios --additional-properties=withoutPrefixEnums=true, -i ${specURL} -o ${tempDir}`,
   (err, stdout, stderr) => {
     if (err) {
       console.log(err);

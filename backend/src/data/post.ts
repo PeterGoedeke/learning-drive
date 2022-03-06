@@ -26,7 +26,7 @@ export const dbPostToPostDto = (post: dbPost, user: User): Components.Schemas.Po
               }
             : undefined,
         reactions: {
-            isPersonallyLiked: post.likedUsers.includes(user),
+            isPersonallyLiked: post.likedUsers.map(user => user.id).includes(user.id),
             likes: post.likedUsers.reduce((acc, _) => acc + 1, 0)
         },
         user: dbUserToUserDto(user)
