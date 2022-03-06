@@ -32,6 +32,9 @@ export const Sidebar = () => {
     <Box
       sx={{
         minWidth: SIDEBAR_WIDTH,
+        position: 'sticky',
+        top: 0,
+        height: 'min-content',
         // '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
       }}
     >
