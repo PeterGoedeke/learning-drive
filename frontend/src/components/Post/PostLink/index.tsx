@@ -14,9 +14,13 @@ export const PostLink = ({ url, title, imageUrl }: PostLinkProps) => {
   const [, sitename] = siteNameRegex.exec(url) || [];
 
   return (
-    <Card sx={{ mt: 2 }}>
+    <Card sx={{ mt: 2, overflow: 'hidden' }}>
       <CardActionArea
-        sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'stretch' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'stretch',
+        }}
         href={url}
         target='_blank'
         rel='noopener noreferrer'
@@ -30,15 +34,13 @@ export const PostLink = ({ url, title, imageUrl }: PostLinkProps) => {
             backgroundPosition: 'center',
           }}
         />
-        <CardContent sx={{ overflow: 'hidden' }}>
-          <Box>
-            <Typography variant='body2' color='text.secondary'>
-              {sitename}
-            </Typography>
-            <Typography noWrap sx={{ textOverflow: 'ellipsis' }}>
-              {title || url}
-            </Typography>
-          </Box>
+        <CardContent sx={{ pt: 1 }}>
+          <Typography variant='caption' color='text.secondary'>
+            {sitename}
+          </Typography>
+          <Typography variant='body2' sx={{ textOverflow: 'ellipsis' }}>
+            {title || url}
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>

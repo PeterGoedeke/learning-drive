@@ -48,7 +48,7 @@ const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
         <Typography variant='h5' component='h1'>
           {title}
         </Typography>
-        {user && <Button onClick={(user) => signOut()}>Signout for now</Button>}
+        {/* {user && <Button onClick={(user) => signOut()}>Signout for now</Button>} */}
 
         <Box sx={{ flexGrow: 1 }} />
         {action}
@@ -60,8 +60,6 @@ const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
 
 const AppBar = styled(Box)(({ theme }) => ({
   position: 'sticky',
-  marginLeft: theme.spacing(-PAGE_MARGIN),
-  marginRight: theme.spacing(-PAGE_MARGIN),
   top: 0,
   background: theme.palette.background.default,
   zIndex: theme.zIndex.appBar,

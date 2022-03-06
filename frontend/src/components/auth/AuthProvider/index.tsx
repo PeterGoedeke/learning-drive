@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { FirebaseApp } from 'firebase/app';
 import {
   FacebookAuthProvider,
@@ -31,6 +32,16 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
     auth.onAuthStateChanged((user) => {
       setUser(user || undefined);
       setHydrated(true);
+    });
+    auth.onIdTokenChanged(async (user) => {
+      const token = await user?.getIdToken();
+      if (token) {
+        axios.defaults.headers.common = {
+          Authorization: `Bearer ${token}`,
+        };
+      } else {
+        axios.defaults.headers.common = {};
+      }
     });
   }, [auth]);
 

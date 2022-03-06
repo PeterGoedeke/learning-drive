@@ -1,11 +1,13 @@
 import { CardHeader, Skeleton, Stack, Typography } from '@mui/material';
 
+import { PAGE_MARGIN } from '../../../utils/constants';
+
 interface PostSkeletonProps {}
 
 export const PostSkeleton = (props: PostSkeletonProps) => (
-  <Stack>
+  <Stack sx={{ p: PAGE_MARGIN }}>
     <CardHeader
-      sx={{ px: 0 }}
+      sx={{ px: 0, pt: 0 }}
       avatar={<Skeleton variant='circular' height={40} width={40} />}
       title={
         <Stack spacing={2} direction='row' alignItems='center'>

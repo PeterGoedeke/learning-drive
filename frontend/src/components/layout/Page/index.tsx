@@ -1,4 +1,4 @@
-import { Container, Stack, styled } from '@mui/material';
+import { Box, Container, Stack, styled } from '@mui/material';
 import { FC } from 'react';
 import { Helmet } from 'react-helmet-async';
 
@@ -11,7 +11,7 @@ interface PageProps extends PageHeaderProps {
 }
 
 export const Page: FC<PageProps> = ({ bottomActions, children, title, ...other }) => (
-  <Stack sx={{ flexGrow: 1, px: PAGE_MARGIN, position: 'relative' }}>
+  <Stack sx={{ flexGrow: 1, position: 'relative' }}>
     <Helmet>
       <title>{title}</title>
     </Helmet>
@@ -29,7 +29,7 @@ export const Page: FC<PageProps> = ({ bottomActions, children, title, ...other }
   </Stack>
 );
 
-const ActionContainer = styled(Container)(({ theme }) => ({
+const ActionContainer = styled(Box)(({ theme }) => ({
   position: 'fixed',
   bottom: 0,
   left: 0,

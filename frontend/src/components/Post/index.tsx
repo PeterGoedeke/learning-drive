@@ -7,6 +7,7 @@ import { HeartButton } from './HeartButton';
 import { PostLink } from './PostLink';
 
 import { Post as PostData } from '../../api/client';
+import { PAGE_MARGIN } from '../../utils/constants';
 import { dateFormats } from '../../utils/dateFormats';
 import EditIcon from '../icons/EditIcon';
 
@@ -25,9 +26,9 @@ export const Post = ({ data, userId, onEdit }: PostProps) => {
   const isOwner = data.user._id === userId;
 
   return (
-    <Stack component='article'>
+    <Stack component='article' sx={{ px: PAGE_MARGIN, py: 1 }}>
       <CardHeader
-        sx={{ px: 0 }}
+        sx={{ px: 0, pt: 0 }}
         avatar={<Avatar src={data.user.imageUrl} />}
         title={
           <div>

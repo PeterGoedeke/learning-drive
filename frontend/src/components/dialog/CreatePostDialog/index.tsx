@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, Grow } from '@mui/material';
+import { Dialog, DialogContent, Grow, Theme, useMediaQuery } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { AsyncDialogProps } from 'react-dialog-async';
 
@@ -7,6 +7,7 @@ import { CreatePostForm } from './CreatePostForm';
 
 import { postsApi } from '../../../api';
 import { CreatePost } from '../../../api/client';
+import { useIsDesktop } from '../../../hooks/useIsDesktop';
 import { createPostFormFields } from '../../../utils/schema/createPostSchema';
 
 export interface CreatePostDialogProps {
@@ -16,6 +17,8 @@ export interface CreatePostDialogProps {
 
 const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePostDialogProps>) => {
   const { enqueueSnackbar } = useSnackbar();
+  const isDesktop = useIsDesktop();
+
   const handleSubmit = async ({ content, link, categories }: createPostFormFields) => {
     const request: CreatePost = {
       content,
@@ -39,6 +42,7 @@ const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePo
       open={open}
       onClose={() => handleClose()}
       fullWidth
+      fullScreen={!isDesktop}
       maxWidth='sm'
     >
       <DialogHeader onClose={() => handleClose()}>

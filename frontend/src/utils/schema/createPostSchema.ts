@@ -7,7 +7,9 @@ export interface createPostFormFields {
 }
 
 export const createPostFormSchema: SchemaOf<createPostFormFields> = object().shape({
-  content: string().required('A post must have content'),
+  content: string()
+    .required('A post must have content')
+    .min(10, 'Posts must be at least 10 characters long'),
   link: string().url('Please enter a valid url'),
   categories: array()
     .of(
