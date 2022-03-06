@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar renders without error 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBottomNavigation-root css-16lloyr-MuiBottomNavigation-root"
+  >
+    <a
+      aria-current="page"
+      class="MuiButtonBase-root MuiBottomNavigationAction-root Mui-selected css-1ee5err-MuiButtonBase-root-MuiBottomNavigationAction-root active"
+      href="/"
+      tabindex="0"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-kw0y8f-MuiSvgIcon-root"
+        data-testid="GlobeIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M9.72579 3.28981C6.16885 4.21592 3.46801 7.26321 3.05493 11H7.0501C7.27432 8.2368 8.19916 5.5844 9.72579 3.28981ZM14.2742 3.28981C15.8008 5.5844 16.7257 8.2368 16.9499 11H20.9451C20.532 7.26321 17.8311 4.21592 14.2742 3.28981ZM14.9424 11C14.6912 8.28687 13.6697 5.70201 12 3.5509C10.3303 5.70201 9.30882 8.28687 9.0576 11H14.9424ZM9.05758 13H14.9424C14.6912 15.7132 13.6697 18.2981 12 20.4493C10.3303 18.2981 9.30876 15.7132 9.05758 13ZM7.05008 13H3.05493C3.468 16.7367 6.16876 19.784 9.72562 20.7101C8.19905 18.4156 7.27427 15.7632 7.05008 13ZM14.2744 20.7101C15.801 18.4156 16.7257 15.7632 16.9499 13H20.9451C20.532 16.7367 17.8312 19.784 14.2744 20.7101ZM12.0153 23C18.0834 22.9917 23 18.07 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.07 5.91659 22.9917 11.9847 23C11.9898 23 11.9949 23 12 23"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </svg>
+      <span
+        class="MuiBottomNavigationAction-label Mui-selected css-imwso6-MuiBottomNavigationAction-label"
+      >
+        Global
+      </span>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </a>
+    <a
+      class="MuiButtonBase-root MuiBottomNavigationAction-root css-1ee5err-MuiButtonBase-root-MuiBottomNavigationAction-root"
+      href="/activity"
+      tabindex="0"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="ListIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M2 12C2 11.4477 2.44772 11 3 11H11C11.5523 11 12 11.4477 12 12C12 12.5523 11.5523 13 11 13H3C2.44772 13 2 12.5523 2 12Z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M2 6C2 5.44772 2.44772 5 3 5H16C16.5523 5 17 5.44772 17 6C17 6.55228 16.5523 7 16 7H3C2.44772 7 2 6.55228 2 6Z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M2 18C2 17.4477 2.44772 17 3 17H16C16.5523 17 17 17.4477 17 18C17 18.5523 16.5523 19 16 19H3C2.44772 19 2 18.5523 2 18Z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M14 12C14 11.4477 14.4477 11 15 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H15C14.4477 13 14 12.5523 14 12Z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </svg>
+      <span
+        class="MuiBottomNavigationAction-label css-imwso6-MuiBottomNavigationAction-label"
+      >
+        Activity
+      </span>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </a>
+    <a
+      class="MuiButtonBase-root MuiBottomNavigationAction-root css-1ee5err-MuiButtonBase-root-MuiBottomNavigationAction-root"
+      href="/account"
+      tabindex="0"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="UserIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M4.46447 15.4645C5.40215 14.5268 6.67392 14 8 14H16C17.3261 14 18.5979 14.5268 19.5355 15.4645C20.4732 16.4021 21 17.6739 21 19V21C21 21.5523 20.5523 22 20 22C19.4477 22 19 21.5523 19 21V19C19 18.2044 18.6839 17.4413 18.1213 16.8787C17.5587 16.3161 16.7956 16 16 16H8C7.20435 16 6.44129 16.3161 5.87868 16.8787C5.31607 17.4413 5 18.2044 5 19V21C5 21.5523 4.55228 22 4 22C3.44772 22 3 21.5523 3 21V19C3 17.6739 3.52678 16.4021 4.46447 15.4645Z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+          <path
+            clip-rule="evenodd"
+            d="M12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4ZM7 7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7C17 9.76142 14.7614 12 12 12C9.23858 12 7 9.76142 7 7Z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </svg>
+      <span
+        class="MuiBottomNavigationAction-label css-imwso6-MuiBottomNavigationAction-label"
+      >
+        Account
+      </span>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </a>
+  </div>
+</DocumentFragment>
+`;

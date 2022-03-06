@@ -1,4 +1,4 @@
-import { Post, User, OpenGraph } from '@prisma/client'
+import { User } from '@prisma/client'
 
 type dbUser = User & {
     followed: User[]

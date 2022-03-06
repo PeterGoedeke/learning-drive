@@ -2,15 +2,16 @@
     "name": "learning-drive",
     "version": "1.0.0",
     "description": "Learning drive social media application",
-    "main": "dist/src/index.js",
+    "main": "dist/index.js",
     "scripts": {
-        "build": "prisma generate && prisma migrate deploy && npx tsc",
+        "build": "npx prisma generate && npx prisma migrate deploy && npx tsc",
+        "postinstall": "npm run update-all",
         "prestart": "npm run build",
         "start": "node .",
-        "dev": "nodemon --config nodemon.json src/index.ts",
+        "dev": "npx nodemon --config nodemon.json src/index.ts",
         "test": "",
-        "update-types": "dtsgen -o ./src/types/schema.d.ts ../spec.yaml",
-        "update-docs": "redoc-cli bundle ../spec.yaml -o spec.html",
+        "update-types": "npx dtsgen -o ./src/types/schema.d.ts ../spec.yaml",
+        "update-docs": "npx redoc-cli bundle ../spec.yaml -o spec.html",
         "update-all": "npm run update-types && npm run update-docs"
     },
     "repository": {
@@ -31,12 +32,16 @@
         "@types/lodash": "^4.14.175",
         "@types/node": "^16.4.2",
         "@types/open-graph-scraper": "^4.8.1",
+        "@types/valid-url": "^1.0.3",
         "@typescript-eslint/eslint-plugin": "^5.2.0",
         "@typescript-eslint/parser": "^5.2.0",
+        "dtsgenerator": "^3.0.0",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^3.4.0",
+        "nodemon": "^2.0.15",
         "prisma": "^2.30.3",
+        "redoc-cli": "^0.13.8",
         "ts-node": "^10.1.0"
     },
     "dependencies": {
@@ -53,6 +58,7 @@
         "jsonwebtoken": "^8.5.1",
         "open-graph-scraper": "^4.11.0",
         "typescript": "^4.3.5",
+        "valid-url": "^1.0.9",
         "winston": "^3.3.3"
     }
 }

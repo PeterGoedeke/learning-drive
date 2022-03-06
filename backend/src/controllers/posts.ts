@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes'
 import asyncHandler from 'express-async-handler'
-import Logger from '../util/logger'
 import { ParamsDictionary } from 'express-serve-static-core/index'
+import { StatusCodes } from 'http-status-codes'
+import { dbPostToPostDto } from '../data/post'
+import repository from '../data/repository'
 
 type getPosts = (
     req: Request<ParamsDictionary, {}, Paths.GetPosts.RequestBody>,
@@ -14,10 +15,24 @@ type createPosts = (
     res: Response<Paths.CreatePost.Responses.$201 | Paths.CreatePost.Responses.$400>
 ) => void
 
-const getPostsHandler: getPosts = async (req, res) => {}
+const getPostsHandler: getPosts = async (req, res) => {
+    const posts = await repository.getPosts(req.body)
+
+    const user = await repository.getCurrentUser(req.userId)
+
+    // TODO: 400 if user doesn't exist
+
+    return res.status(StatusCodes.OK).json({
+        posts: posts.map(post => dbPostToPostDto(post, user))
+    })
+}
 
 export const getPosts = asyncHandler(getPostsHandler)
 
-const createPostsHandler: createPosts = async (req, res) => {}
+const createPostsHandler: createPosts = async (req, res) => {
+    const response = await repository.createPost(req.userId, req.body)
+
+    return res.status(StatusCodes.CREATED).end()
+}
 
 export const createPosts = asyncHandler(createPostsHandler)
