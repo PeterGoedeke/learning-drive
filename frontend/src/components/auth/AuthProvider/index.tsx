@@ -35,14 +35,11 @@ export const AuthProvider = ({ firebaseApp, children }: PropsWithChildren<AuthPr
     });
     // Add the id token to any axios requests made
     auth.onIdTokenChanged(async (user) => {
-      const token = await user?.getIdToken();
-      if (token) {
-        axios.defaults.headers.common = {
-          Authorization: `Bearer ${token}`,
-        };
-      } else {
-        axios.defaults.headers.common = {};
-      }
+      axios.interceptors.request.use(async (config) => {
+        const token = await user?.getIdToken();
+        (config.headers as any).Authorization = `Bearer ${token}`;
+        return config;
+      });
     });
   }, [auth]);
 

@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, Grow, Theme, useMediaQuery } from '@mui/material';
+import { Dialog, DialogContent, Grow } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { AsyncDialogProps } from 'react-dialog-async';
 
@@ -27,7 +27,7 @@ const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePo
     };
 
     try {
-      await postsApi.createPost({ createPost: request });
+      await postsApi.createPost(request);
       enqueueSnackbar(data.editMode ? 'Post updated' : 'Post created', { variant: 'success' });
       handleClose();
     } catch (error) {

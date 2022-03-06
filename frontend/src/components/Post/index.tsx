@@ -59,7 +59,7 @@ export const Post = ({ data, userId, onEdit }: PostProps) => {
           )
         }
       />
-      <Typography sx={{ whiteSpace: 'pre-wrap' }}>{data.content}</Typography>
+      <Typography sx={{ overflowWrap: 'break-word' }}>{data.content}</Typography>
       {data.resource && (
         <PostLink
           url={data.resource.link}

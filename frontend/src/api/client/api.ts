@@ -498,20 +498,6 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
 };
 
 /**
- * Request parameters for createCategory operation in CategoriesApi.
- * @export
- * @interface CategoriesApiCreateCategoryRequest
- */
-export interface CategoriesApiCreateCategoryRequest {
-    /**
-     * 
-     * @type {CreateCategory}
-     * @memberof CategoriesApiCreateCategory
-     */
-    readonly createCategory: CreateCategory
-}
-
-/**
  * CategoriesApi - object-oriented interface
  * @export
  * @class CategoriesApi
@@ -521,13 +507,13 @@ export class CategoriesApi extends BaseAPI {
     /**
      * Create a category
      * @summary Create a category
-     * @param {CategoriesApiCreateCategoryRequest} requestParameters Request parameters.
+     * @param {CreateCategory} createCategory 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public createCategory(requestParameters: CategoriesApiCreateCategoryRequest, options?: AxiosRequestConfig) {
-        return CategoriesApiFp(this.configuration).createCategory(requestParameters.createCategory, options).then((request) => request(this.axios, this.basePath));
+    public createCategory(createCategory: CreateCategory, options?: AxiosRequestConfig) {
+        return CategoriesApiFp(this.configuration).createCategory(createCategory, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -888,90 +874,6 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
 };
 
 /**
- * Request parameters for createPost operation in PostsApi.
- * @export
- * @interface PostsApiCreatePostRequest
- */
-export interface PostsApiCreatePostRequest {
-    /**
-     * 
-     * @type {CreatePost}
-     * @memberof PostsApiCreatePost
-     */
-    readonly createPost: CreatePost
-}
-
-/**
- * Request parameters for getPostById operation in PostsApi.
- * @export
- * @interface PostsApiGetPostByIdRequest
- */
-export interface PostsApiGetPostByIdRequest {
-    /**
-     * The id of the object in the path
-     * @type {string}
-     * @memberof PostsApiGetPostById
-     */
-    readonly id: string
-}
-
-/**
- * Request parameters for getPosts operation in PostsApi.
- * @export
- * @interface PostsApiGetPostsRequest
- */
-export interface PostsApiGetPostsRequest {
-    /**
-     * 
-     * @type {GetPostQuery}
-     * @memberof PostsApiGetPosts
-     */
-    readonly getPostQuery: GetPostQuery
-}
-
-/**
- * Request parameters for reactToPost operation in PostsApi.
- * @export
- * @interface PostsApiReactToPostRequest
- */
-export interface PostsApiReactToPostRequest {
-    /**
-     * The id of the object in the path
-     * @type {string}
-     * @memberof PostsApiReactToPost
-     */
-    readonly id: string
-
-    /**
-     * 
-     * @type {ReactToPost}
-     * @memberof PostsApiReactToPost
-     */
-    readonly reactToPost: ReactToPost
-}
-
-/**
- * Request parameters for updatePost operation in PostsApi.
- * @export
- * @interface PostsApiUpdatePostRequest
- */
-export interface PostsApiUpdatePostRequest {
-    /**
-     * The id of the object in the path
-     * @type {string}
-     * @memberof PostsApiUpdatePost
-     */
-    readonly id: string
-
-    /**
-     * 
-     * @type {CreatePost}
-     * @memberof PostsApiUpdatePost
-     */
-    readonly createPost: CreatePost
-}
-
-/**
  * PostsApi - object-oriented interface
  * @export
  * @class PostsApi
@@ -981,61 +883,63 @@ export class PostsApi extends BaseAPI {
     /**
      * Create a post
      * @summary Create a post
-     * @param {PostsApiCreatePostRequest} requestParameters Request parameters.
+     * @param {CreatePost} createPost 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public createPost(requestParameters: PostsApiCreatePostRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).createPost(requestParameters.createPost, options).then((request) => request(this.axios, this.basePath));
+    public createPost(createPost: CreatePost, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).createPost(createPost, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get detailed information about a post.
      * @summary Get a post.
-     * @param {PostsApiGetPostByIdRequest} requestParameters Request parameters.
+     * @param {string} id The id of the object in the path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public getPostById(requestParameters: PostsApiGetPostByIdRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).getPostById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getPostById(id: string, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).getPostById(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get posts for the various feeds. Request body fields allow for search and control of pagination.
      * @summary Get posts
-     * @param {PostsApiGetPostsRequest} requestParameters Request parameters.
+     * @param {GetPostQuery} getPostQuery 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public getPosts(requestParameters: PostsApiGetPostsRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).getPosts(requestParameters.getPostQuery, options).then((request) => request(this.axios, this.basePath));
+    public getPosts(getPostQuery: GetPostQuery, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).getPosts(getPostQuery, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Add or remove your reaction to a post (currently, whether you have liked the post or not)
      * @summary React to a post.
-     * @param {PostsApiReactToPostRequest} requestParameters Request parameters.
+     * @param {string} id The id of the object in the path
+     * @param {ReactToPost} reactToPost 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public reactToPost(requestParameters: PostsApiReactToPostRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).reactToPost(requestParameters.id, requestParameters.reactToPost, options).then((request) => request(this.axios, this.basePath));
+    public reactToPost(id: string, reactToPost: ReactToPost, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).reactToPost(id, reactToPost, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Change the content of one of your own posts
      * @summary Edit a post.
-     * @param {PostsApiUpdatePostRequest} requestParameters Request parameters.
+     * @param {string} id The id of the object in the path
+     * @param {CreatePost} createPost 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public updatePost(requestParameters: PostsApiUpdatePostRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).updatePost(requestParameters.id, requestParameters.createPost, options).then((request) => request(this.axios, this.basePath));
+    public updatePost(id: string, createPost: CreatePost, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).updatePost(id, createPost, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1129,20 +1033,6 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 };
 
 /**
- * Request parameters for getUserById operation in UsersApi.
- * @export
- * @interface UsersApiGetUserByIdRequest
- */
-export interface UsersApiGetUserByIdRequest {
-    /**
-     * The id of the object in the path
-     * @type {string}
-     * @memberof UsersApiGetUserById
-     */
-    readonly id: string
-}
-
-/**
  * UsersApi - object-oriented interface
  * @export
  * @class UsersApi
@@ -1152,13 +1042,13 @@ export class UsersApi extends BaseAPI {
     /**
      * Get detailed information about a user.
      * @summary Get a user.
-     * @param {UsersApiGetUserByIdRequest} requestParameters Request parameters.
+     * @param {string} id The id of the object in the path
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserById(requestParameters: UsersApiGetUserByIdRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).getUserById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getUserById(id: string, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserById(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
