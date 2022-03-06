@@ -94,9 +94,11 @@ const repository = {
                 content: {
                     contains: query.searchQuery
                 },
-                categories: {
-                    hasEvery: query.searchCategories
-                }
+                categories: query.searchCategories
+                    ? {
+                          hasEvery: query.searchCategories
+                      }
+                    : undefined
             },
             include: {
                 user: true,
@@ -104,12 +106,23 @@ const repository = {
                 openGraph: true
             },
             take: query.pageSize,
-            skip: query.pageSize && query.offset ? query.pageSize * query.offset : undefined
+            skip: query.pageSize && query.offset ? query.pageSize * query.offset : undefined,
+            orderBy: {
+                timestampCreated: 'desc'
+            }
         })
     },
 
     async getCategories() {
         return await prisma.category.findMany()
+    },
+
+    async ensureCategoriesExist(categories: string[]) {
+        const created = await prisma.category.createMany({
+            data: categories.map(category => ({ name: category })),
+            skipDuplicates: true
+        })
+        return created
     },
 
     async createCategory(name: string) {

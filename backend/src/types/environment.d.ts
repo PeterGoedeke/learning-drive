@@ -6,6 +6,7 @@ declare global {
             PORT?: string
             GOOGLE_APPLICATION_CREDENTIALS?: string
             DEFAULT_PICTURE_LINK: string
+            FIREBASE_API_KEY: string
         }
     }
 }

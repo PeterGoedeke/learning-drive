@@ -4,6 +4,9 @@ import { ParamsDictionary } from 'express-serve-static-core/index'
 import { StatusCodes } from 'http-status-codes'
 import { dbPostToPostDto } from '../data/post'
 import repository from '../data/repository'
+import Logger from '../util/logger'
+
+const log = Logger.getLogger('posts-id')
 
 type getPostById = (
     req: Request,
@@ -58,7 +61,7 @@ const updatePostHandler: updatePost = async (req, res) => {
 export const updatePost = asyncHandler(updatePostHandler)
 
 const reactToPostHandler: reactToPost = async (req, res) => {
-    const postId = Number(req.params.postId)
+    const postId = Number(req.params.id)
 
     try {
         if (req.body.liked) {
@@ -67,6 +70,7 @@ const reactToPostHandler: reactToPost = async (req, res) => {
             await repository.unlikePost(req.userId, postId)
         }
     } catch (error) {
+        log.error(error)
         return res.status(StatusCodes.NOT_FOUND).end()
     }
 
