@@ -13,6 +13,7 @@ import { AuthProvider } from './components/auth/AuthProvider';
 import reportWebVitals from './reportWebVitals';
 import theme from './theme';
 import { firebaseConfig } from './utils/firebaseConfig';
+
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
