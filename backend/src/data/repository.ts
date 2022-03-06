@@ -106,7 +106,10 @@ const repository = {
                 openGraph: true
             },
             take: query.pageSize,
-            skip: query.pageSize && query.offset ? query.pageSize * query.offset : undefined
+            skip: query.pageSize && query.offset ? query.pageSize * query.offset : undefined,
+            orderBy: {
+                timestampCreated: 'desc'
+            }
         })
     },
 
