@@ -117,6 +117,14 @@ const repository = {
         return await prisma.category.findMany()
     },
 
+    async ensureCategoriesExist(categories: string[]) {
+        const created = await prisma.category.createMany({
+            data: categories.map(category => ({ name: category })),
+            skipDuplicates: true
+        })
+        return created
+    },
+
     async createCategory(name: string) {
         return await prisma.category.create({
             data: {
