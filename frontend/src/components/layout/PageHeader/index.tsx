@@ -1,20 +1,9 @@
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Stack,
-  styled,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, IconButton, Stack, styled, Toolbar, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Tooltip from '../../Tooltip';
 
-import { useAuth } from '../../../hooks/useAuth';
-import { PAGE_MARGIN } from '../../../utils/constants';
 import ArrowLeftIcon from '../../icons/ArrowLeftIcon';
 
 export interface PageHeaderProps {
@@ -30,7 +19,6 @@ export interface PageHeaderProps {
  */
 const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
   return (
     <AppBar>
       <Stack component={Toolbar} direction='row' spacing={1}>
@@ -48,7 +36,6 @@ const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
         <Typography variant='h5' component='h1'>
           {title}
         </Typography>
-        {/* {user && <Button onClick={(user) => signOut()}>Signout for now</Button>} */}
 
         <Box sx={{ flexGrow: 1 }} />
         {action}
