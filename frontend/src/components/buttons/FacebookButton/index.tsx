@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
 
 import { useAuth } from '../../../hooks/useAuth';
-import { LOGIN_BUTTON_WIDTH } from '../../../utils/constants';
 import FacebookIcon from '../../icons/FacebookIcon';
 
 const FacebookButton = () => {
@@ -9,7 +8,7 @@ const FacebookButton = () => {
   return (
     <Button
       variant='contained'
-      sx={{width: LOGIN_BUTTON_WIDTH}}
+      fullWidth
       onClick={appContext.signInWithFacebook}
       startIcon={<FacebookIcon />}
     >

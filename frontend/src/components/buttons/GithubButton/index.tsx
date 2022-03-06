@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
 
 import { useAuth } from '../../../hooks/useAuth';
-import { LOGIN_BUTTON_WIDTH } from '../../../utils/constants';
 import GithubIcon from '../../icons/GithubIcon';
 
 const GithubButton = () => {
@@ -9,7 +8,7 @@ const GithubButton = () => {
   return (
     <Button
       variant='contained'
-      sx={{ width: LOGIN_BUTTON_WIDTH}}
+      fullWidth
       onClick={appContext.signInWithGithub}
       startIcon={<GithubIcon />}
     >

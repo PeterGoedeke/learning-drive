@@ -7,7 +7,7 @@ import GoogleButton from "../../components/buttons/GoogleButton";
 const LoginPage = () => <Container maxWidth='sm' sx={{ mt: 8 }}>
     <Card>
       <CardContent>
-        <Stack alignItems='center'>
+        <Stack alignItems='center' spacing={2}>
         <Typography variant='h4' component='h1' gutterBottom>
             Login
           </Typography>
