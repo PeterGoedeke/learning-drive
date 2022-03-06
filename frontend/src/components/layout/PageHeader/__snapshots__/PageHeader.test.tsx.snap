@@ -9,7 +9,9 @@ exports[`PageHeader renders a back button when specified 1`] = `
       class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-1uiyf5x-MuiToolbar-root-MuiStack-root"
     >
       <button
+        aria-label="Go Back"
         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1jfmqnk-MuiButtonBase-root-MuiIconButton-root"
+        data-mui-internal-clone-element="true"
         data-testid="back-button"
         tabindex="0"
         type="button"

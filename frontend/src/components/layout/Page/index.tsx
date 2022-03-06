@@ -2,7 +2,7 @@ import { Container, Typography } from "@mui/material";
 import { FC } from "react";
 import { Helmet } from 'react-helmet-async';
 
-import { PAGE_MARGIN } from "../../../util/constants";
+import { PAGE_MARGIN } from "../../../utils/constants";
 
 interface PageProps {
     title: string;

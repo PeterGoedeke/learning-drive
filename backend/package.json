@@ -1,0 +1,64 @@
+{
+    "name": "learning-drive",
+    "version": "1.0.0",
+    "description": "Learning drive social media application",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "npx prisma generate && npx prisma migrate deploy && npx tsc",
+        "postinstall": "npm run update-all",
+        "prestart": "npm run build",
+        "start": "node .",
+        "dev": "npx nodemon --config nodemon.json src/index.ts",
+        "test": "",
+        "update-types": "npx dtsgen -o ./src/types/schema.d.ts ../spec.yaml",
+        "update-docs": "npx redoc-cli bundle ../spec.yaml -o spec.html",
+        "update-all": "npm run update-types && npm run update-docs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PeterGoedeke/learning-drive.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/PeterGoedeke/learning-drive/issues"
+    },
+    "homepage": "https://github.com/PeterGoedeke/learning-drive#readme",
+    "devDependencies": {
+        "@types/cron": "^1.7.3",
+        "@types/express": "^4.17.13",
+        "@types/jsonwebtoken": "^8.5.5",
+        "@types/jwk-to-pem": "^2.0.1",
+        "@types/lodash": "^4.14.175",
+        "@types/node": "^16.4.2",
+        "@types/open-graph-scraper": "^4.8.1",
+        "@types/valid-url": "^1.0.3",
+        "@typescript-eslint/eslint-plugin": "^5.2.0",
+        "@typescript-eslint/parser": "^5.2.0",
+        "dtsgenerator": "^3.0.0",
+        "eslint": "^7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "nodemon": "^2.0.15",
+        "prisma": "^2.30.3",
+        "redoc-cli": "^0.13.8",
+        "ts-node": "^10.1.0"
+    },
+    "dependencies": {
+        "@prisma/client": "^2.27.0",
+        "cron": "^1.8.2",
+        "debug": "^4.3.2",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "express-async-handler": "^1.1.4",
+        "express-openapi-validator": "^4.12.15",
+        "express-winston": "^4.1.0",
+        "firebase-admin": "^10.0.2",
+        "http-status-codes": "^2.1.4",
+        "jsonwebtoken": "^8.5.1",
+        "open-graph-scraper": "^4.11.0",
+        "typescript": "^4.3.5",
+        "valid-url": "^1.0.9",
+        "winston": "^3.3.3"
+    }
+}

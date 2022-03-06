@@ -1,7 +1,19 @@
-import { Box, Divider, IconButton, Stack, styled, Toolbar, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Stack,
+  styled,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Tooltip from '../../Tooltip';
+
+import { useAuth } from '../../../hooks/useAuth';
 import ArrowLeftIcon from '../../icons/ArrowLeftIcon';
 
 export interface PageHeaderProps {
@@ -10,23 +22,33 @@ export interface PageHeaderProps {
   backButton?: boolean;
 }
 
+/**
+ * Displays a header at the top of the page. This header will be sticky even as the user scrolls.
+ * It also can optionally be passed an action which will be displayed on the right side, as well
+ * as a back button.
+ */
 const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
   return (
     <AppBar>
       <Stack component={Toolbar} direction='row' spacing={1}>
         {backButton && (
-          <IconButton
-            sx={{ color: 'white' }}
-            onClick={() => navigate(-1)}
-            data-testid='back-button'
-          >
-            <ArrowLeftIcon fontSize='inherit' />
-          </IconButton>
+          <Tooltip title='Go Back'>
+            <IconButton
+              sx={{ color: 'white' }}
+              onClick={() => navigate(-1)}
+              data-testid='back-button'
+            >
+              <ArrowLeftIcon fontSize='inherit' />
+            </IconButton>
+          </Tooltip>
         )}
         <Typography variant='h5' component='h1'>
           {title}
         </Typography>
+        {user && <Button onClick={() => signOut()}>Signout for now</Button>}
+
         <Box sx={{ flexGrow: 1 }} />
         {action}
       </Stack>
