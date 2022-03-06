@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Card,
   CardActionArea,
@@ -12,19 +13,19 @@ import {
 import { useDialog } from 'react-dialog-async';
 
 import CreatePostDialog from '../../components/dialog/CreatePostDialog';
-import { EndOfFeed } from '../../components/feed/EndOfFeed';
 import { PostFeed } from '../../components/feed/PostFeed';
 import PlusIcon from '../../components/icons/PlusIcon';
-import SadBoxIcon from '../../components/icons/SadBoxIcon';
 import SearchIcon from '../../components/icons/SearchIcon';
 import WriteIcon from '../../components/icons/WriteIcon';
 import { Page } from '../../components/layout/Page';
-import { Post } from '../../components/Post';
-import { PostSkeleton } from '../../components/Post/PostSkeleton';
-import { post1, post2 } from '../../components/Post/testData';
+
+import { useSearch } from '../../hooks/useSearch';
 
 const GlobalPage = () => {
   const createPostDialog = useDialog(CreatePostDialog);
+
+  const { search, refineSearch } = useSearch();
+
   const handleCreatePost = async () => {
     await createPostDialog.show({});
   };
@@ -33,9 +34,16 @@ const GlobalPage = () => {
     <Page
       title='Global Feed'
       action={
-        <IconButton color='secondary'>
-          <SearchIcon />
-        </IconButton>
+        <Badge
+          variant={'dot'}
+          color='primary'
+          overlap='circular'
+          badgeContent={Object.values(search).length > 0 ? 1 : 0}
+        >
+          <IconButton color='secondary' onClick={refineSearch}>
+            <SearchIcon />
+          </IconButton>
+        </Badge>
       }
       bottomActions={
         <>
@@ -57,7 +65,9 @@ const GlobalPage = () => {
         </CardActionArea>
       </Card>
       <Divider />
-      <PostFeed />
+      {JSON.stringify(search)}
+      <Divider />
+      <PostFeed filter={search} />
     </Page>
   );
 };

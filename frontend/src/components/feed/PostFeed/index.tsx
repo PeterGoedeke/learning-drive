@@ -4,8 +4,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Post } from '../../Post';
 import { EndOfFeed } from '../EndOfFeed';
 
-import { GetPostQuery } from '../../../api/client';
 import { usePostFeed } from '../../../hooks/usePostFeed';
+import { postsSearchFilter } from '../../../utils/schema/searchPostsSchema';
 import { PostSkeleton } from '../../Post/PostSkeleton';
 
 const FeedSkeleton = () => (
@@ -20,7 +20,7 @@ const FeedSkeleton = () => (
 );
 
 export interface PostFeedProps {
-  filter?: Omit<GetPostQuery, 'pageSize' | 'offset'>;
+  filter?: postsSearchFilter;
   endMessage?: (hasPosts: boolean) => string | undefined;
 }
 

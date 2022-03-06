@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 
 import { postsApi } from '../api';
-import { GetPostQuery, Post } from '../api/client';
+import { Post } from '../api/client';
 import { queryKey } from '../utils/queryKeys';
+import { postsSearchFilter } from '../utils/schema/searchPostsSchema';
 
 interface usePostFeedOpts {
   pageSize?: number;
-  filter?: Omit<GetPostQuery, 'pageSize' | 'offset'>;
+  filter?: postsSearchFilter;
 }
 
 interface postFeedData {
@@ -22,13 +23,17 @@ interface postFeedData {
 export const usePostFeed = ({ pageSize = 10, filter = {} }: usePostFeedOpts = {}): postFeedData => {
   const [hasMore, setHasMore] = useState(true);
 
+  useEffect(() => {
+    setHasMore(true);
+  }, [filter]);
+
   const { data, size, setSize } = useSWRInfinite(
     (pageIndex, prevPageData) => {
       if (pageIndex && prevPageData.length < pageSize) {
         setHasMore(false);
         return null;
       }
-      return queryKey.POSTS(pageIndex);
+      return queryKey.POSTS(pageIndex, filter);
     },
     async (_, page) =>
       (
