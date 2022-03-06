@@ -17,7 +17,7 @@ type createPosts = (
 ) => void
 
 const getPostsHandler: getPosts = async (req, res) => {
-    const posts = await repository.getPosts(req.body)
+    const posts = await repository.getPosts(req.body, req.userId)
 
     const user = await repository.getCurrentUser(req.userId)
 

@@ -87,10 +87,30 @@ const repository = {
         })
     },
 
-    async getPosts(query: Components.Schemas.GetPostQuery) {
+    async getPosts(query: Components.Schemas.GetPostQuery, userId: string) {
+        let userQuery: string | { in: string[] } | undefined = query.userIdQuery
+        if (query.followed) {
+            const user = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                },
+                include: {
+                    followed: true
+                }
+            })
+            if (user === null) {
+                throw `Registered user with id ${userId} not found in database.`
+            }
+
+            const ids = user.followed.map(followedUser => followedUser.id)
+            userQuery = {
+                in: ids
+            }
+        }
+
         return await prisma.post.findMany({
             where: {
-                userId: query.userIdQuery,
+                userId: userQuery,
                 content: {
                     contains: query.searchQuery
                 },
