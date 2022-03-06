@@ -14,15 +14,20 @@ export default async (token: string) => {
     try {
         const decodedToken = await getAuth().verifyIdToken(token)
         try {
-            const user = await getAuth().getUser(decodedToken.uid)
-            if (!user) {
-                log.info(`No user exists for ${decodedToken.uid}, creating user`)
-                throw 'No user exists'
+            const firebaseUser = await getAuth().getUser(decodedToken.uid)
+            if (!firebaseUser) {
+                const errorMessage = `No user exists for ${decodedToken.uid}`
+                log.info(errorMessage)
+                throw errorMessage
             }
-            await repository.createUser(user)
+            await repository.createUser(firebaseUser)
+            const databaseUser = await repository.getUserById(decodedToken.uid)
+            if (!databaseUser) {
+                await repository.createUser(firebaseUser)
+            }
             return decodedToken.uid
         } catch (error: any) {
-            log.info(`Failed inside`)
+            log.info(`Error in getting user id from token`)
             throw error
         }
     } catch (error: any) {
