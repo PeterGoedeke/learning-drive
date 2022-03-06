@@ -1,4 +1,5 @@
 import {
+  Box,
   Divider,
   Drawer,
   List,
@@ -28,23 +29,25 @@ export const Sidebar = () => {
   }
 
   return (
-    <Drawer
+    <Box
       sx={{
-        width: SIDEBAR_WIDTH,
-        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
+        minWidth: SIDEBAR_WIDTH,
+        // '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
       }}
-      variant='permanent'
-      anchor='left'
     >
-      <Stack component={Toolbar} direction='row' justifyContent='center'>
+      <Stack component={Toolbar} direction='row'>
         <Typography variant='h4' component='h1' gutterBottom>
-          Lorem Ipsum
+          Lorem
         </Typography>
       </Stack>
-      <Divider />
-      <Stack sx={{ pl: '1vh' }}>
-        <List>
-          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/'>
+      <Stack>
+        <List disablePadding>
+          <ListItem
+            disablePadding
+            component={NavLink}
+            sx={{ color: 'white', bgcolor: page === 'global' ? 'action.selected' : undefined }}
+            to='/'
+          >
             <ListItemButton>
               <GlobeIcon sx={{ color: page === 'global' ? 'secondary.main' : undefined }} />
               <ListItemText primary='Global Feed' sx={{ pl: '0.7vh' }} />
@@ -64,6 +67,6 @@ export const Sidebar = () => {
           </ListItem>
         </List>
       </Stack>
-    </Drawer>
+    </Box>
   );
 };
