@@ -24,7 +24,7 @@ const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePo
     };
 
     try {
-      await postsApi.postsPost({ createPost: request });
+      await postsApi.createPost({ createPost: request });
       enqueueSnackbar(data.editMode ? 'Post updated' : 'Post created', { variant: 'success' });
       handleClose();
     } catch (error) {
