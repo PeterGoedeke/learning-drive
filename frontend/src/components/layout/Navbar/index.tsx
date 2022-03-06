@@ -1,60 +1,47 @@
 import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Stack,
-  Toolbar,
+  BottomNavigation,
+  BottomNavigationAction,
 } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import GlobeIcon from '../../icons/GlobeIcon';
 import ListIcon from '../../icons/ListIcon';
 import UserIcon from '../../icons/UserIcon';
 
 export const Navbar = () => {
-  const lol = 0;
+  const { pathname } = useLocation();
+
+  let page = '';
+  if (pathname === '/') {
+    page = 'global';
+  } else if (pathname.startsWith('/activity')) {
+    page = 'activity';
+  } else if (pathname.startsWith('/account')) {
+    page = 'account';
+  }
+
   return (
-    <Drawer
-      sx={{
-        width: '100%',
-      }}
-      variant='permanent'
-      anchor='bottom'
-    >
-      <Stack component={Toolbar} direction='row' justifyContent='center'>
-        <List>
-          <ListItem disablePadding component={NavLink} sx={{ color: 'white'}} to='/'>
-            <ListItemButton>
-              <Stack direction='column' alignItems='center'>
-                <GlobeIcon />
-                <ListItemText primary='Global Feed'/>
-              </Stack>
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <List>
-          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
-            <ListItemButton>
-              <Stack direction='column' alignItems='center'>
-                <ListIcon />
-                <ListItemText primary='Activity Feed' />
-              </Stack>
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <List>
-          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
-            <ListItemButton>
-              <Stack direction='column' alignItems='center'>
-                <UserIcon />
-                <ListItemText primary='My Account' />
-              </Stack>
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Stack>
-    </Drawer>
-  );
-};
+      <BottomNavigation showLabels value={page}>
+        <BottomNavigationAction
+          component={NavLink}
+          value='global'
+          label='Global'
+          to='/'
+          icon={<GlobeIcon sx={{color: page === 'global' ? 'secondary.main' : undefined}}/>}
+        />
+        <BottomNavigationAction
+          component={NavLink}
+          value='activity'
+          label='Activity'
+          to='/activity'
+          icon={<ListIcon sx={{color: page === 'activity' ? 'secondary.main' : undefined}}/>}
+        />
+        <BottomNavigationAction
+          component={NavLink}
+          value={'account'}
+          label={'Account'}
+          icon={<UserIcon sx={{color: page === 'account' ? 'secondary.main' : undefined}}/>}
+          to='/account'
+        />
+      </BottomNavigation>
+  )};
