@@ -28,7 +28,7 @@ export const PostFeed = ({
   filter,
   endMessage = (hasPosts) => (hasPosts ? undefined : 'It seems like there arent any posts here'),
 }: PostFeedProps) => {
-  const { posts, loadMore, hasMore } = usePostFeed();
+  const { posts, loadMore, hasMore } = usePostFeed({ filter });
 
   return (
     <InfiniteScroll
