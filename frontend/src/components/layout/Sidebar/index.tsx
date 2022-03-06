@@ -9,7 +9,6 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { SetStateAction, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { SIDEBAR_WIDTH } from '../../../utils/constants';
@@ -20,14 +19,14 @@ import UserIcon from '../../icons/UserIcon';
 export const Sidebar = () => {
   const { pathname } = useLocation();
   let page = '';
-  if(pathname === '/'){
+  if (pathname === '/') {
     page = 'global';
   } else if (pathname.startsWith('/activity')) {
     page = 'activity';
-  } else if (pathname.startsWith('/account')){
+  } else if (pathname.startsWith('/account')) {
     page = 'account';
   }
-  
+
   return (
     <Drawer
       sx={{
@@ -47,19 +46,19 @@ export const Sidebar = () => {
         <List>
           <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/'>
             <ListItemButton>
-              <GlobeIcon sx={{color: page === 'global' ? 'secondary.main':undefined }}/>
+              <GlobeIcon sx={{ color: page === 'global' ? 'secondary.main' : undefined }} />
               <ListItemText primary='Global Feed' sx={{ pl: '0.7vh' }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
             <ListItemButton>
-              <ListIcon sx={{color: page === 'activity' ? 'secondary.main':undefined }}/>
+              <ListIcon sx={{ color: page === 'activity' ? 'secondary.main' : undefined }} />
               <ListItemText primary='Activity Feed' sx={{ pl: '0.7vh' }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
             <ListItemButton>
-              <UserIcon sx={{color: page === 'account' ? 'secondary.main':undefined }}/>
+              <UserIcon sx={{ color: page === 'account' ? 'secondary.main' : undefined }} />
               <ListItemText primary='My Account' sx={{ pl: '0.7vh' }} />
             </ListItemButton>
           </ListItem>
