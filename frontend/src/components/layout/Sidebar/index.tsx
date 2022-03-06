@@ -22,18 +22,12 @@ export const Sidebar = () => {
   let page = '';
   if(pathname === '/'){
     page = 'global';
-  } else if (pathname.startsWith('activity')) {
+  } else if (pathname.startsWith('/activity')) {
     page = 'activity';
-  } else if (pathname.startsWith('account')){
+  } else if (pathname.startsWith('/account')){
     page = 'account';
   }
   
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const handleListItemClick = (event: any, index: SetStateAction<number>) => {
-    setSelectedIndex(index);
-  };
-
   return (
     <Drawer
       sx={{
@@ -52,29 +46,20 @@ export const Sidebar = () => {
       <Stack sx={{ pl: '1vh' }}>
         <List>
           <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/'>
-            <ListItemButton
-              selected={selectedIndex === 0}
-              onClick={(e) => handleListItemClick(e, 0)}
-            >
-              <GlobeIcon sx={{color: selectedIndex === 0 ? 'secondary.main':undefined }}/>
+            <ListItemButton>
+              <GlobeIcon sx={{color: page === 'global' ? 'secondary.main':undefined }}/>
               <ListItemText primary='Global Feed' sx={{ pl: '0.7vh' }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
-            <ListItemButton
-              selected={selectedIndex === 1}
-              onClick={(e) => handleListItemClick(e, 1)}
-            >
-              <ListIcon sx={{color: selectedIndex === 1 ? 'secondary.main':undefined }}/>
+            <ListItemButton>
+              <ListIcon sx={{color: page === 'activity' ? 'secondary.main':undefined }}/>
               <ListItemText primary='Activity Feed' sx={{ pl: '0.7vh' }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
-            <ListItemButton
-              selected={selectedIndex === 2}
-              onClick={(e) => handleListItemClick(e, 2)}
-            >
-              <UserIcon sx={{color: selectedIndex === 2 ? 'secondary.main':undefined }}/>
+            <ListItemButton>
+              <UserIcon sx={{color: page === 'account' ? 'secondary.main':undefined }}/>
               <ListItemText primary='My Account' sx={{ pl: '0.7vh' }} />
             </ListItemButton>
           </ListItem>
