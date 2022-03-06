@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
-import { StatusCodes } from 'http-status-codes'
 import asyncHandler from 'express-async-handler'
-import Logger from '../util/logger'
 import { ParamsDictionary } from 'express-serve-static-core/index'
+import { StatusCodes } from 'http-status-codes'
+import { dbPostToPostDto } from '../data/post'
+import repository from '../data/repository'
 
 type getPostById = (
     req: Request,
@@ -27,14 +28,49 @@ type reactToPost = (
     >
 ) => void
 
-const getPostByIdHandler: getPostById = async (req, res) => {}
+const getPostByIdHandler: getPostById = async (req, res) => {
+    const id = Number(req.params.id)
+
+    const post = await repository.getPostById(id)
+    if (post === null) {
+        return res.status(StatusCodes.NOT_FOUND).end()
+    }
+
+    const user = await repository.getCurrentUser(req.userId)
+
+    return res.status(StatusCodes.OK).json(dbPostToPostDto(post, user))
+}
 
 export const getPostById = asyncHandler(getPostByIdHandler)
 
-const updatePostHandler: updatePost = async (req, res) => {}
+const updatePostHandler: updatePost = async (req, res) => {
+    const postId = Number(req.params.id)
+
+    const response = await repository.updatePost(postId, req.body)
+
+    if (response === null) {
+        return res.status(StatusCodes.NOT_FOUND).end()
+    }
+
+    return res.status(StatusCodes.NO_CONTENT).end()
+}
 
 export const updatePost = asyncHandler(updatePostHandler)
 
-const reactToPostHandler: reactToPost = async (req, res) => {}
+const reactToPostHandler: reactToPost = async (req, res) => {
+    const postId = Number(req.params.postId)
+
+    try {
+        if (req.body.liked) {
+            await repository.likePost(req.userId, postId)
+        } else {
+            await repository.unlikePost(req.userId, postId)
+        }
+    } catch (error) {
+        return res.status(StatusCodes.NOT_FOUND).end()
+    }
+
+    return res.status(StatusCodes.NO_CONTENT).end()
+}
 
 export const reactToPost = asyncHandler(reactToPostHandler)

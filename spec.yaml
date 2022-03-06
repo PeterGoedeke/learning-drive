@@ -15,7 +15,7 @@ paths:
       summary: Get posts
       description: Get posts for the various feeds. Request body fields allow for search and control of pagination.
       tags: [posts]
-      x-eov-operation-id: get
+      x-eov-operation-id: getPosts
       x-eov-operation-handler: posts
       operationId: getPosts
       requestBody:
@@ -39,7 +39,7 @@ paths:
       summary: Create a post
       description: Create a post
       tags: [posts]
-      x-eov-operation-id: post
+      x-eov-operation-id: createPosts
       x-eov-operation-handler: posts
       operationId: createPost
       requestBody:
@@ -63,7 +63,7 @@ paths:
       summary: Get a post.
       description: Get detailed information about a post.
       tags: [posts]
-      x-eov-operation-id: get
+      x-eov-operation-id: getPostById
       x-eov-operation-handler: posts-id
       operationId: getPostById
       parameters:
@@ -82,7 +82,7 @@ paths:
       summary: Edit a post.
       description: Change the content of one of your own posts
       tags: [posts]
-      x-eov-operation-id: put
+      x-eov-operation-id: updatePost
       x-eov-operation-handler: posts-id
       operationId: updatePost
       parameters:
@@ -105,7 +105,7 @@ paths:
       summary: React to a post.
       description: Add or remove your reaction to a post (currently, whether you have liked the post or not)
       tags: [posts]
-      x-eov-operation-id: patch
+      x-eov-operation-id: reactToPost
       x-eov-operation-handler: posts-id
       operationId: reactToPost
       parameters:
@@ -129,7 +129,7 @@ paths:
       summary: Get a user.
       description: Get detailed information about a user.
       tags: [users]
-      x-eov-operation-id: get
+      x-eov-operation-id: getUserById
       x-eov-operation-handler: users-id
       operationId: getUserById
       parameters:
@@ -149,7 +149,7 @@ paths:
       summary: Get categories
       description: Get a list of all possible categories a post can be categorized under
       tags: [categories]
-      x-eov-operation-id: get
+      x-eov-operation-id: getCategories
       x-eov-operation-handler: categories
       operationId: getCategories
       responses:
@@ -164,7 +164,7 @@ paths:
       summary: Create a category
       description: Create a category
       tags: [categories]
-      x-eov-operation-id: post
+      x-eov-operation-id: createCategory
       x-eov-operation-handler: categories
       operationId: createCategory
       requestBody:
@@ -281,6 +281,7 @@ components:
         - posts
       properties:
         posts:
+          type: array
           items:
             $ref: "#/components/schemas/Post"
 
