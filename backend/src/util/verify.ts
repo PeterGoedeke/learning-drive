@@ -20,7 +20,6 @@ export default async (token: string) => {
                 log.info(errorMessage)
                 throw errorMessage
             }
-            await repository.createUser(firebaseUser)
             const databaseUser = await repository.getUserById(decodedToken.uid)
             if (!databaseUser) {
                 await repository.createUser(firebaseUser)
