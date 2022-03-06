@@ -1,28 +1,14 @@
-import { Button, Container, Divider, Typography } from '@mui/material';
+import { useRoutes } from 'react-router-dom';
 
 import { useAuth } from './hooks/useAuth';
+import { buildRoutes } from './routes';
 
 const App = () => {
-  const { user, signInWithGoogle, signOut } = useAuth();
+  const { user } = useAuth();
 
-  return (
-    <Container>
-      <Typography variant='h5' gutterBottom>
-        Learning Drive
-      </Typography>
-      <Divider />
-      <Typography>{user ? `Hello, ${user.displayName}` : 'Hello, stranger'}</Typography>
-      {!user ? (
-        <Button variant='outlined' onClick={() => signInWithGoogle()}>
-          Sign in with Google
-        </Button>
-      ) : (
-        <Button variant='outlined' onClick={() => signOut()}>
-          Sign Out
-        </Button>
-      )}
-    </Container>
-  );
+  const route = useRoutes(buildRoutes(Boolean(user)));
+
+  return route;
 };
 
 export default App;
