@@ -94,9 +94,11 @@ const repository = {
                 content: {
                     contains: query.searchQuery
                 },
-                categories: {
-                    hasEvery: query.searchCategories
-                }
+                categories: query.searchCategories
+                    ? {
+                          hasEvery: query.searchCategories
+                      }
+                    : undefined
             },
             include: {
                 user: true,
