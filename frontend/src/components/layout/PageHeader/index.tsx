@@ -29,7 +29,7 @@ const PageHeader = ({ title, action, backButton = false }: PageHeaderProps) => {
         <Typography variant='h5' component='h1'>
           {title}
         </Typography>
-        {user && <Button onClick={(user) => signOut}>Signout for now</Button> }
+        {user && <Button onClick={() => signOut()}>Signout for now</Button> }
         
         <Box sx={{ flexGrow: 1 }} />
         {action}
