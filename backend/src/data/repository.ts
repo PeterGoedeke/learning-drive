@@ -1,6 +1,10 @@
+import { User } from '@prisma/client'
 import { UserRecord } from 'firebase-admin/auth'
 import getOpenGraph from '../util/get-open-graph'
+import Logger from '../util/logger'
 import prisma from './db'
+
+const log = Logger.getLogger('repository')
 
 const repository = {
     async createPost(userId: string, post: Components.Schemas.CreatePost) {
@@ -87,10 +91,30 @@ const repository = {
         })
     },
 
-    async getPosts(query: Components.Schemas.GetPostQuery) {
+    async getPosts(query: Components.Schemas.GetPostQuery, userId: string) {
+        let userQuery: string | { in: string[] } | undefined = query.userIdQuery
+        if (query.followed) {
+            const user = await prisma.user.findUnique({
+                where: {
+                    id: userId
+                },
+                include: {
+                    followed: true
+                }
+            })
+            if (user === null) {
+                throw `Registered user with id ${userId} not found in database.`
+            }
+
+            const ids = user.followed.map(followedUser => followedUser.id)
+            userQuery = {
+                in: ids
+            }
+        }
+
         return await prisma.post.findMany({
             where: {
-                userId: query.userIdQuery,
+                userId: userQuery,
                 content: {
                     contains: query.searchQuery
                 },
@@ -158,20 +182,30 @@ const repository = {
         })
     },
 
-    async createUser(user: UserRecord) {
+    async createUser(user: UserRecord): Promise<User> {
         try {
             const name = user.displayName || 'Unnamed'
-            const userCount = prisma.user.count()
+            const userCount = await prisma.user.count()
+            const handle = name + userCount
+            log.info(
+                `Attempting to generate handle for user with id ${user.uid}. Handle will be ${handle}`
+            )
+
             return await prisma.user.create({
                 data: {
                     id: user.uid,
                     name,
                     imageUrl: user.photoURL || process.env.DEFAULT_PICTURE_LINK,
-                    handle: name + userCount
+                    handle
                 }
             })
         } catch (error: any) {
-            // if this is a duplicate error, then retry until it isn't
+            // if unique constraint on handle violated, we should retry generating a handle
+            if (error.meta.target.includes('handle')) {
+                log.info(`Retrying handle generation for user with id ${user.uid}`)
+                return this.createUser(user)
+            }
+            throw error
         }
     }
 }
