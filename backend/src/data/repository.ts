@@ -57,7 +57,7 @@ const repository = {
             },
             data: {
                 likedUsers: {
-                    delete: {
+                    disconnect: {
                         id: userId
                     }
                 }
