@@ -1,12 +1,12 @@
 import {
   Box,
-  Divider,
-  Drawer,
   List,
   ListItem,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Stack,
+  SvgIcon,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -16,6 +16,31 @@ import { SIDEBAR_WIDTH } from '../../../utils/constants';
 import GlobeIcon from '../../icons/GlobeIcon';
 import ListIcon from '../../icons/ListIcon';
 import UserIcon from '../../icons/UserIcon';
+
+interface SidebarItemProps {
+  Icon: typeof SvgIcon;
+  page: string;
+  matchSubPages?: boolean;
+  location: string;
+  children: string;
+  to: string;
+}
+
+const SidebarItem = ({ Icon, location, page, children, to }: SidebarItemProps) => (
+  <ListItem
+    disablePadding
+    component={NavLink}
+    sx={{ color: 'white', bgcolor: location === page ? 'action.selected' : undefined }}
+    to={to}
+  >
+    <ListItemButton>
+      <ListItemIcon>
+        <Icon sx={{ color: location === page ? 'secondary.main' : undefined }} />
+      </ListItemIcon>
+      <ListItemText primary={children} />
+    </ListItemButton>
+  </ListItem>
+);
 
 export const Sidebar = () => {
   const { pathname } = useLocation();
@@ -35,7 +60,6 @@ export const Sidebar = () => {
         position: 'sticky',
         top: 0,
         height: 'min-content',
-        // '& .MuiDrawer-paper': { boxSizing: 'border-box', width: SIDEBAR_WIDTH },
       }}
     >
       <Stack component={Toolbar} direction='row'>
@@ -45,29 +69,15 @@ export const Sidebar = () => {
       </Stack>
       <Stack>
         <List disablePadding>
-          <ListItem
-            disablePadding
-            component={NavLink}
-            sx={{ color: 'white', bgcolor: page === 'global' ? 'action.selected' : undefined }}
-            to='/'
-          >
-            <ListItemButton>
-              <GlobeIcon sx={{ color: page === 'global' ? 'secondary.main' : undefined }} />
-              <ListItemText primary='Global Feed' sx={{ pl: '0.7vh' }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/activity'>
-            <ListItemButton>
-              <ListIcon sx={{ color: page === 'activity' ? 'secondary.main' : undefined }} />
-              <ListItemText primary='Activity Feed' sx={{ pl: '0.7vh' }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding component={NavLink} sx={{ color: 'white' }} to='/account'>
-            <ListItemButton>
-              <UserIcon sx={{ color: page === 'account' ? 'secondary.main' : undefined }} />
-              <ListItemText primary='My Account' sx={{ pl: '0.7vh' }} />
-            </ListItemButton>
-          </ListItem>
+          <SidebarItem to='/' Icon={GlobeIcon} location={page} page='global'>
+            Global Feed
+          </SidebarItem>
+          <SidebarItem to='/activity' Icon={ListIcon} location={page} page='activity'>
+            Activity Feed
+          </SidebarItem>
+          <SidebarItem to='/account' Icon={UserIcon} location={page} page='account'>
+            My Account
+          </SidebarItem>
         </List>
       </Stack>
     </Box>

@@ -68,9 +68,7 @@ export const Post = ({ data, userId, onEdit }: PostProps) => {
         />
       )}
       <Stack direction='row' alignItems='center'>
-        <Tooltip title={liked ? 'Unlike Post' : 'Like Post'}>
-          <HeartButton color='secondary' filled={liked} onClick={() => setLiked((l) => !l)} />
-        </Tooltip>
+        <HeartButton color='secondary' filled={liked} onClick={() => setLiked((l) => !l)} />
         <Typography
           variant='caption'
           color={liked ? 'secondary' : 'text.secondary'}
