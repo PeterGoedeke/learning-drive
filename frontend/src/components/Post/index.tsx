@@ -1,6 +1,6 @@
 import { Avatar, CardHeader, Stack, Typography, Chip, styled, IconButton } from '@mui/material';
 import format from 'date-fns/format';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Tooltip from '../Tooltip';
 import { HeartButton } from './HeartButton';
@@ -15,12 +15,14 @@ export interface PostProps {
   // Data about the post
   data: PostData;
   // The id of the authenticated user
-  userId: string;
+  userId?: string;
 
   onEdit?: (data: PostData) => void;
+
+  onToggleLike?: (like: boolean) => void;
 }
 
-export const Post = ({ data, userId, onEdit }: PostProps) => {
+export const Post = ({ data, userId, onEdit, onToggleLike }: PostProps) => {
   const [liked, setLiked] = useState(data.reactions.isPersonallyLiked);
 
   const isOwner = data.user._id === userId;
@@ -68,13 +70,22 @@ export const Post = ({ data, userId, onEdit }: PostProps) => {
         />
       )}
       <Stack direction='row' alignItems='center'>
-        <HeartButton color='secondary' filled={liked} onClick={() => setLiked((l) => !l)} />
+        <HeartButton
+          color='secondary'
+          filled={liked}
+          onClick={() =>
+            setLiked((l) => {
+              onToggleLike && onToggleLike(!l);
+              return !l;
+            })
+          }
+        />
         <Typography
           variant='caption'
           color={liked ? 'secondary' : 'text.secondary'}
           sx={{ mt: 0.25 }}
         >
-          {data.reactions.likes + (liked ? 1 : 0)}
+          {data.reactions.likes - (data.reactions.isPersonallyLiked ? 1 : 0) + (liked ? 1 : 0)}
         </Typography>
       </Stack>
     </Stack>
