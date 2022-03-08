@@ -15,7 +15,7 @@ import prisma from '../src/data/db'
     await prisma.user.createMany({
         data: [
             {
-                id: 'HzMvMeQKHwcsDXRG87TevsMapkd2',
+                id: 'EaFbkHpMiNPGThNYAgKgiKYcgCJ2',
                 name: 'Ben',
                 imageUrl:
                     'https://firebasestorage.googleapis.com/v0/b/learning-drive-fe98e.appspot.com/o/dp.png?alt=media&token=cfb8cf84-aee6-445f-a4d0-f987b88172c9',
@@ -167,7 +167,7 @@ import prisma from '../src/data/db'
                 categories: ['Java'],
                 resource: 'https://test.com/test2',
                 openGraphUrl: 'https://test.com/test2',
-                userId: 'HzMvMeQKHwcsDXRG87TevsMapkd2',
+                userId: 'EaFbkHpMiNPGThNYAgKgiKYcgCJ2',
                 timestampCreated: new Date().toISOString(),
                 timestampModified: new Date().toISOString()
             }
@@ -209,7 +209,7 @@ import prisma from '../src/data/db'
         data: {
             likedUsers: {
                 connect: {
-                    id: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
+                    id: 'EaFbkHpMiNPGThNYAgKgiKYcgCJ2'
                 }
             }
         }
