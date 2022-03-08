@@ -116,7 +116,8 @@ const repository = {
             where: {
                 userId: userQuery,
                 content: {
-                    contains: query.searchQuery
+                    contains: query.searchQuery,
+                    mode: 'insensitive'
                 },
                 categories: query.searchCategories
                     ? {
