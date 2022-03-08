@@ -1,9 +1,6 @@
 import { User } from '@prisma/client'
-import { UserRecord } from 'firebase-admin/auth'
-import getOpenGraph from '../util/get-open-graph'
-import Logger from '../util/logger'
-import prisma from '../data/db'
-import { database } from 'firebase-admin'
+import Logger from '../src/util/logger'
+import prisma from '../src/data/db'
 ;(async () => {
     const log = Logger.getLogger('populate')
 
@@ -20,25 +17,29 @@ import { database } from 'firebase-admin'
             {
                 id: 'HzMvMeQKHwcsDXRG87TevsMapkd2',
                 name: 'Ben',
-                imageUrl: process.env.DEFAULT_PICTURE_LINK,
+                imageUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/learning-drive-fe98e.appspot.com/o/dp.png?alt=media&token=cfb8cf84-aee6-445f-a4d0-f987b88172c9',
                 handle: 'Ben0'
             },
             {
                 id: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa',
                 name: 'Peter',
-                imageUrl: process.env.DEFAULT_PICTURE_LINK,
+                imageUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/learning-drive-fe98e.appspot.com/o/dp.png?alt=media&token=cfb8cf84-aee6-445f-a4d0-f987b88172c9',
                 handle: 'Peter1'
             },
             {
                 id: '6edd1b55-4fc4-48a4-ba96-a161987fcfab',
                 name: 'Alex',
-                imageUrl: process.env.DEFAULT_PICTURE_LINK,
+                imageUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/learning-drive-fe98e.appspot.com/o/dp.png?alt=media&token=cfb8cf84-aee6-445f-a4d0-f987b88172c9',
                 handle: 'Alex2'
             },
             {
                 id: '6edd1b55-4fc4-48a4-ba96-a161987fcfac',
                 name: 'Kinan',
-                imageUrl: process.env.DEFAULT_PICTURE_LINK,
+                imageUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/learning-drive-fe98e.appspot.com/o/dp.png?alt=media&token=cfb8cf84-aee6-445f-a4d0-f987b88172c9',
                 handle: 'Kinan3'
             }
         ]
@@ -52,25 +53,31 @@ import { database } from 'firebase-admin'
                     id: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
                 },
                 data: {
-                    followedUsers: {
-                        connect: [
-                            {
-                                id: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa'
-                            },
-                            {
-                                id: '6edd1b55-4fc4-48a4-ba96-a161987fcfab'
-                            },
-                            {
-                                id: '6edd1b55-4fc4-48a4-ba96-a161987fcfac'
-                            }
-                        ]
+                    followers: {
+                        connect: {
+                            id: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa'
+                        }
                     },
-                    followingUsers: [
+                    followed: [
                         {
                             id: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa'
-                        },
+                        }
+                    ]
+                }
+            },
+            {
+                where: {
+                    id: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
+                },
+                data: {
+                    followers: {
+                        connect: {
+                            id: '6edd1b55-4fc4-48a4-ba96-a161987fcfab'
+                        }
+                    },
+                    followed: [
                         {
-                            id: '6edd1b55-4fc4-48a4-ba96-a161987fcfac'
+                            id: '6edd1b55-4fc4-48a4-ba96-a161987fcfab'
                         }
                     ]
                 }
@@ -130,7 +137,9 @@ import { database } from 'firebase-admin'
                 categories: ['Java', 'c++'],
                 resource: 'https://test.com/test1',
                 openGraphUrl: 'https://test.com/test1',
-                userId: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa'
+                userId: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa',
+                timestampCreated: new Date().toISOString(),
+                timestampModified: new Date().toISOString()
             },
             {
                 id: 2,
@@ -138,7 +147,9 @@ import { database } from 'firebase-admin'
                 categories: ['JavaScript'],
                 resource: 'https://test.com/test2',
                 openGraphUrl: 'https://test.com/test2',
-                userId: '6edd1b55-4fc4-48a4-ba96-a161987fcfac'
+                userId: '6edd1b55-4fc4-48a4-ba96-a161987fcfac',
+                timestampCreated: new Date().toISOString(),
+                timestampModified: new Date().toISOString()
             },
             {
                 id: 3,
@@ -146,7 +157,9 @@ import { database } from 'firebase-admin'
                 categories: ['JavaScript', 'python'],
                 resource: 'https://test.com/test3',
                 openGraphUrl: 'https://test.com/test3',
-                userId: '6edd1b55-4fc4-48a4-ba96-a161987fcfab'
+                userId: '6edd1b55-4fc4-48a4-ba96-a161987fcfab',
+                timestampCreated: new Date().toISOString(),
+                timestampModified: new Date().toISOString()
             },
             {
                 id: 4,
@@ -154,58 +167,68 @@ import { database } from 'firebase-admin'
                 categories: ['Java'],
                 resource: 'https://test.com/test2',
                 openGraphUrl: 'https://test.com/test2',
-                userId: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
+                userId: 'HzMvMeQKHwcsDXRG87TevsMapkd2',
+                timestampCreated: new Date().toISOString(),
+                timestampModified: new Date().toISOString()
             }
         ]
     })
 
     log.info('created posts')
 
-    await prisma.post.updateMany({
-        data: [
-            {
-                where: {
-                    id: 1
-                },
-                data: {
-                    likedUsers: {
-                        connect: [
-                            {
-                                id: '6edd1b55-4fc4-48a4-ba96-a161987fcfab'
-                            },
-                            {
-                                id: '6edd1b55-4fc4-48a4-ba96-a161987fcfac'
-                            }
-                        ]
-                    }
-                }
-            },
-            {
-                where: {
-                    id: 2
-                },
-                data: {
-                    likedUsers: {
-                        connect: {
-                            id: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
-                        }
-                    }
-                }
-            },
-            {
-                where: {
-                    id: 4
-                },
-                data: {
-                    likedUsers: {
-                        connect: {
-                            id: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa'
-                        }
-                    }
+    await prisma.post.update({
+        where: {
+            id: 1
+        },
+        data: {
+            likedUsers: {
+                connect: {
+                    id: '6edd1b55-4fc4-48a4-ba96-a161987fcfab'
                 }
             }
-        ]
+        }
+    })
+
+    await prisma.post.update({
+        where: {
+            id: 1
+        },
+        data: {
+            likedUsers: {
+                connect: {
+                    id: '6edd1b55-4fc4-48a4-ba96-a161987fcfac'
+                }
+            }
+        }
+    })
+
+    await prisma.post.update({
+        where: {
+            id: 2
+        },
+        data: {
+            likedUsers: {
+                connect: {
+                    id: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
+                }
+            }
+        }
+    })
+
+    await prisma.post.update({
+        where: {
+            id: 4
+        },
+        data: {
+            likedUsers: {
+                connect: {
+                    id: '6edd1b55-4fc4-48a4-ba96-a161987fcfaa'
+                }
+            }
+        }
     })
 
     log.info('liked posts')
-})()
+})().finally(async () => {
+    await prisma.$disconnect()
+})

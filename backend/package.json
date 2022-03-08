@@ -15,7 +15,7 @@
         "update-all": "npm run update-types && npm run update-docs"
     },
     "prisma": {
-        "seed": "ts-node src/scripts/populate-data.ts"
+        "seed": "ts-node ./src/scripts/populate-data.ts"
     },
     "repository": {
         "type": "git",
@@ -40,13 +40,14 @@
         "@typescript-eslint/eslint-plugin": "^5.2.0",
         "@typescript-eslint/parser": "^5.2.0",
         "dtsgenerator": "^3.0.0",
+        "esbuild": "^0.14.25",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^3.4.0",
         "nodemon": "^2.0.15",
         "prisma": "^2.30.3",
         "redoc-cli": "^0.13.8",
-        "ts-node": "^10.1.0"
+        "ts-node": "^10.7.0"
     },
     "dependencies": {
         "@prisma/client": "^2.27.0",
