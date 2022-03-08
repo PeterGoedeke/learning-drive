@@ -7,8 +7,11 @@ import * as OpenApiValidator from 'express-openapi-validator'
 import { ValidationError } from 'express-openapi-validator/dist/framework/types'
 import Logger from './util/logger'
 import expressWinston from 'express-winston'
+import cors from 'cors'
 
 const app = express()
+
+app.use(cors())
 
 app.use(express.json())
 app.use(express.text())
