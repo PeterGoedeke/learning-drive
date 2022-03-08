@@ -14,6 +14,9 @@
         "update-docs": "npx redoc-cli bundle ../spec.yaml -o spec.html",
         "update-all": "npm run update-types && npm run update-docs"
     },
+    "prisma": {
+        "seed": "ts-node src/scripts/populate-data.ts"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/PeterGoedeke/learning-drive.git"
