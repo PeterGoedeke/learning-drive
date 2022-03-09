@@ -36,7 +36,7 @@ const Template: Story<CreatePostDialogStoryProps> = (args) => {
 export const Default = Template.bind({});
 export const Editing = Template.bind({});
 Editing.args = {
-  editMode: true,
+  postId: 1,
   initialValues: {
     content:
       'Ullamco cupidatat amet sunt aute aute do ipsum nulla proident. Ut laboris consequat culpa Lorem est. Mollit occaecat sunt mollit ipsum non aliquip sit aute tempor laborum aliquip do occaecat aute.',
