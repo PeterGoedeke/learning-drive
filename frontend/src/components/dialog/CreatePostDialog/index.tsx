@@ -12,7 +12,7 @@ import { createPostFormFields } from '../../../utils/schema/createPostSchema';
 
 export interface CreatePostDialogProps {
   initialValues?: Partial<createPostFormFields>;
-  editMode?: boolean;
+  postId?: number;
 }
 
 const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePostDialogProps>) => {
@@ -27,8 +27,14 @@ const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePo
     };
 
     try {
-      await postsApi.createPost(request);
-      enqueueSnackbar(data.editMode ? 'Post updated' : 'Post created', { variant: 'success' });
+      if (data.postId) {
+        await postsApi.updatePost(String(data.postId), request);
+      } else {
+        await postsApi.createPost(request);
+      }
+      enqueueSnackbar(data.postId ? 'Post updated' : 'Post created', {
+        variant: 'success',
+      });
       handleClose();
     } catch (error) {
       enqueueSnackbar('An error occurred', { variant: 'error' });
@@ -46,11 +52,11 @@ const CreatePostDialog = ({ open, handleClose, data }: AsyncDialogProps<CreatePo
       maxWidth='sm'
     >
       <DialogHeader onClose={() => handleClose()}>
-        {data.editMode ? 'Edit Post' : 'Create Post'}
+        {data.postId ? 'Edit Post' : 'Create Post'}
       </DialogHeader>
       <DialogContent>
         <CreatePostForm
-          editMode={data.editMode}
+          editMode={Boolean(data.postId)}
           handleSubmit={handleSubmit}
           initialValues={data.initialValues}
         />

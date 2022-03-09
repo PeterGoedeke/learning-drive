@@ -129,6 +129,12 @@ declare namespace Components {
              */
             userIdQuery?: string;
             /**
+             * When true, return only posts which were posted by users which the current user follows. Overrides the `userIdQuery` field
+             * example:
+             * true
+             */
+            followed?: boolean;
+            /**
              * Used for pagination; must be used in conjunction with the `pageSize` field. Represents the page number the request is for, given the page size specified by the `pageSize` field. 0 indexed
              * example:
              * 2

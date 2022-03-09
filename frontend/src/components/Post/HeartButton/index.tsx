@@ -2,6 +2,8 @@ import { IconButton, IconButtonProps } from '@mui/material';
 import UseAnimation from 'react-useanimations';
 import heart from 'react-useanimations/lib/heart';
 
+import Tooltip from '../../Tooltip';
+
 export interface HeartButtonProps extends IconButtonProps {
   filled?: boolean;
 }
@@ -15,9 +17,11 @@ export const HeartButton = ({ onClick, size, filled, ...rest }: HeartButtonProps
     reverse={filled}
     onClick={(e) => onClick && onClick(e as any)}
     render={(eventProps, animationProps) => (
-      <IconButton size={size} {...rest} {...eventProps}>
-        <div {...animationProps} />
-      </IconButton>
+      <Tooltip title={filled ? 'Unlike Post' : 'Like Post'}>
+        <IconButton size={size} {...rest} {...eventProps}>
+          <div {...animationProps} />
+        </IconButton>
+      </Tooltip>
     )}
   />
 );
