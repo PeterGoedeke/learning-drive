@@ -91,6 +91,14 @@ const repository = {
         })
     },
 
+    async deletePost(postId: number) {
+        return await prisma.post.delete({
+            where: {
+                id: postId
+            }
+        })
+    },
+
     async getPosts(query: Components.Schemas.GetPostQuery, userId: string) {
         let userQuery: string | { in: string[] } | undefined = query.userIdQuery
         if (query.followed) {

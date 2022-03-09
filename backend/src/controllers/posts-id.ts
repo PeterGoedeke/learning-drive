@@ -60,6 +60,22 @@ const updatePostHandler: updatePost = async (req, res) => {
 
 export const updatePost = asyncHandler(updatePostHandler)
 
+const deletePostHandler: updatePost = async (req, res) => {
+    const postId = Number(req.params.id)
+
+    // check if user exists
+
+    const response = await repository.deletePost(postId)
+
+    if (response === null) {
+        return res.status(StatusCodes.NOT_FOUND).end()
+    }
+
+    return res.status(StatusCodes.NO_CONTENT).end()
+}
+
+export const deletePost = asyncHandler(deletePostHandler)
+
 const reactToPostHandler: reactToPost = async (req, res) => {
     const postId = Number(req.params.id)
 

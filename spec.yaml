@@ -78,6 +78,23 @@ paths:
         "404":
           $ref: "#/components/responses/NotFoundError"
 
+    delete:
+      summary: Delete a post.
+      description: Delete of one of your own posts
+      tags: [posts]
+      x-eov-operation-id: deletePost
+      x-eov-operation-handler: posts-id
+      operationId: deletePost
+      parameters:
+        - $ref: "#/components/parameters/IDParam"
+      responses:
+        "204":
+          description: The delete was applied successfully.
+        "400":
+          $ref: "#/components/responses/ParseError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+
     put:
       summary: Edit a post.
       description: Change the content of one of your own posts
@@ -334,6 +351,7 @@ components:
       example: C++
       type: string
       maxLength: 20
+      minLength: 1
 
     CreateCategory:
       type: object
@@ -345,6 +363,7 @@ components:
           example: C++
           type: string
           maxLength: 20
+          minLength: 1
 
     AllCategories:
       type: object
@@ -490,4 +509,3 @@ components:
       schema:
         example: "3"
         type: string
-        pattern: '^[\d]*$'

@@ -50,7 +50,7 @@ import prisma from '../src/data/db'
         data: [
             {
                 where: {
-                    id: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
+                    id: 'EaFbkHpMiNPGThNYAgKgiKYcgCJ2'
                 },
                 data: {
                     followers: {
@@ -67,7 +67,7 @@ import prisma from '../src/data/db'
             },
             {
                 where: {
-                    id: 'HzMvMeQKHwcsDXRG87TevsMapkd2'
+                    id: 'EaFbkHpMiNPGThNYAgKgiKYcgCJ2'
                 },
                 data: {
                     followers: {
@@ -133,7 +133,7 @@ import prisma from '../src/data/db'
         data: [
             {
                 id: 1,
-                content: 'Hello, this is my first post! I am Peter!',
+                content: 'Hello, this is my first post! I am Peter, I love Java!',
                 categories: ['Java', 'c++'],
                 resource: 'https://test.com/test1',
                 openGraphUrl: 'https://test.com/test1',
@@ -153,7 +153,7 @@ import prisma from '../src/data/db'
             },
             {
                 id: 3,
-                content: 'Ich bin Alek, ich leibe JavaScript und python<3',
+                content: 'Ich bin Alek, ich leibe JS und python<3',
                 categories: ['JavaScript', 'python'],
                 resource: 'https://test.com/test3',
                 openGraphUrl: 'https://test.com/test3',
