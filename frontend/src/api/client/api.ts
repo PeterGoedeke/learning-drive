@@ -24,6 +24,19 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface AllCategories
+ */
+export interface AllCategories {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof AllCategories
+     */
+    'categories': Array<string>;
+}
+/**
+ * 
+ * @export
  * @interface CreateCategory
  */
 export interface CreateCategory {
@@ -62,28 +75,52 @@ export interface CreatePost {
 /**
  * 
  * @export
- * @interface InlineResponse200
+ * @interface GetPostQuery
  */
-export interface InlineResponse200 {
+export interface GetPostQuery {
     /**
-     * 
-     * @type {Array<Post>}
-     * @memberof InlineResponse200
+     * Return only posts containing this substring in their content
+     * @type {string}
+     * @memberof GetPostQuery
      */
-    'posts': Array<Post>;
+    'searchQuery'?: string;
+    /**
+     * Return only posts which belong to all categories specified
+     * @type {Array<string>}
+     * @memberof GetPostQuery
+     */
+    'searchCategories'?: Array<string>;
+    /**
+     * Return only posts which were posted by this user
+     * @type {string}
+     * @memberof GetPostQuery
+     */
+    'userIdQuery'?: string;
+    /**
+     * Used for pagination; must be used in conjunction with the `pageSize` field. Represents the page number the request is for, given the page size specified by the `pageSize` field. 0 indexed
+     * @type {number}
+     * @memberof GetPostQuery
+     */
+    'offset'?: number;
+    /**
+     * Used for pagination; must be used in conjunction with the `offset` field. Represents the number of items which should be included per page. Multiple categories should be separated by commas.
+     * @type {number}
+     * @memberof GetPostQuery
+     */
+    'pageSize'?: number;
 }
 /**
  * 
  * @export
- * @interface InlineResponse2001
+ * @interface InlineResponse201
  */
-export interface InlineResponse2001 {
+export interface InlineResponse201 {
     /**
-     * 
-     * @type {Array<string>}
-     * @memberof InlineResponse2001
+     * The new category after formatting by the backend (e.g. ensuring reasonable usage of whitespace)
+     * @type {string}
+     * @memberof InlineResponse201
      */
-    'categories': Array<string>;
+    'category': string;
 }
 /**
  * Schema which represents the JSON returned for errors and other conditions which expect status updates.
@@ -117,23 +154,11 @@ export interface Post {
      */
     'user': User;
     /**
-     * The time at which the post was made, in a format suitable to be shown to the user
-     * @type {string}
-     * @memberof Post
-     */
-    'timeLabelCreated': string;
-    /**
      * The time at which the post was made, as milliseconds past the unix epoch
      * @type {number}
      * @memberof Post
      */
     'timestampCreated': number;
-    /**
-     * The time at which the post was most recently edited, in a format suitable to be shown to the user
-     * @type {string}
-     * @memberof Post
-     */
-    'timeLabelModified': string;
     /**
      * The time at which the post was most recently edited, as milliseconds past the unix epoch
      * @type {number}
@@ -153,11 +178,11 @@ export interface Post {
      */
     'content': string;
     /**
-     * The resource attached to the post by the user. This is an optional field
-     * @type {string}
+     * 
+     * @type {PostResource}
      * @memberof Post
      */
-    'resource'?: string;
+    'resource'?: PostResource;
     /**
      * 
      * @type {PostReactions}
@@ -177,6 +202,75 @@ export interface PostReactions {
      * @memberof PostReactions
      */
     'likes': number;
+    /**
+     * Whether the current user has liked the post or not
+     * @type {boolean}
+     * @memberof PostReactions
+     */
+    'isPersonallyLiked': boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PostResource
+ */
+export interface PostResource {
+    /**
+     * The resource attached to the post by the user. This is an optional field
+     * @type {string}
+     * @memberof PostResource
+     */
+    'link': string;
+    /**
+     * 
+     * @type {PostResourceOpenGraph}
+     * @memberof PostResource
+     */
+    'openGraph'?: PostResourceOpenGraph;
+}
+/**
+ * 
+ * @export
+ * @interface PostResourceOpenGraph
+ */
+export interface PostResourceOpenGraph {
+    /**
+     * The name of the website
+     * @type {string}
+     * @memberof PostResourceOpenGraph
+     */
+    'title'?: string;
+    /**
+     * The url which the request was sent to
+     * @type {string}
+     * @memberof PostResourceOpenGraph
+     */
+    'url'?: string;
+    /**
+     * The description of the website
+     * @type {string}
+     * @memberof PostResourceOpenGraph
+     */
+    'description'?: string;
+    /**
+     * The URL of the open graph image
+     * @type {string}
+     * @memberof PostResourceOpenGraph
+     */
+    'imageUrl'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface Posts
+ */
+export interface Posts {
+    /**
+     * 
+     * @type {Array<Post>}
+     * @memberof Posts
+     */
+    'posts': Array<Post>;
 }
 /**
  * 
@@ -199,10 +293,10 @@ export interface ReactToPost {
 export interface User {
     /**
      * The unique identifier of the user
-     * @type {number}
+     * @type {string}
      * @memberof User
      */
-    '_id'?: number;
+    '_id': string;
     /**
      * The url of the profile picture of the user
      * @type {string}
@@ -267,49 +361,15 @@ export interface UserFullProfile {
 export const CategoriesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Get a list of all possible categories a post can be categorized under
-         * @summary Get categories
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        categoriesGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/categories`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication CognitoAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Create a category
          * @summary Create a category
          * @param {CreateCategory} createCategory 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        categoriesPost: async (createCategory: CreateCategory, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createCategory: async (createCategory: CreateCategory, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'createCategory' is not null or undefined
-            assertParamExists('categoriesPost', 'createCategory', createCategory)
+            assertParamExists('createCategory', 'createCategory', createCategory)
             const localVarPath = `/categories`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -322,7 +382,7 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication CognitoAuth required
+            // authentication FirebaseAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -340,6 +400,40 @@ export const CategoriesApiAxiosParamCreator = function (configuration?: Configur
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Get a list of all possible categories a post can be categorized under
+         * @summary Get categories
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCategories: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/categories`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication FirebaseAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -351,24 +445,24 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = CategoriesApiAxiosParamCreator(configuration)
     return {
         /**
-         * Get a list of all possible categories a post can be categorized under
-         * @summary Get categories
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async categoriesGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2001>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.categoriesGet(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
          * Create a category
          * @summary Create a category
          * @param {CreateCategory} createCategory 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async categoriesPost(createCategory: CreateCategory, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.categoriesPost(createCategory, options);
+        async createCategory(createCategory: CreateCategory, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse201>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createCategory(createCategory, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Get a list of all possible categories a post can be categorized under
+         * @summary Get categories
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCategories(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AllCategories>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCategories(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -382,37 +476,37 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
     const localVarFp = CategoriesApiFp(configuration)
     return {
         /**
-         * Get a list of all possible categories a post can be categorized under
-         * @summary Get categories
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        categoriesGet(options?: any): AxiosPromise<InlineResponse2001> {
-            return localVarFp.categoriesGet(options).then((request) => request(axios, basePath));
-        },
-        /**
          * Create a category
          * @summary Create a category
          * @param {CreateCategory} createCategory 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        categoriesPost(createCategory: CreateCategory, options?: any): AxiosPromise<void> {
-            return localVarFp.categoriesPost(createCategory, options).then((request) => request(axios, basePath));
+        createCategory(createCategory: CreateCategory, options?: any): AxiosPromise<InlineResponse201> {
+            return localVarFp.createCategory(createCategory, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get a list of all possible categories a post can be categorized under
+         * @summary Get categories
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCategories(options?: any): AxiosPromise<AllCategories> {
+            return localVarFp.getCategories(options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for categoriesPost operation in CategoriesApi.
+ * Request parameters for createCategory operation in CategoriesApi.
  * @export
- * @interface CategoriesApiCategoriesPostRequest
+ * @interface CategoriesApiCreateCategoryRequest
  */
-export interface CategoriesApiCategoriesPostRequest {
+export interface CategoriesApiCreateCategoryRequest {
     /**
      * 
      * @type {CreateCategory}
-     * @memberof CategoriesApiCategoriesPost
+     * @memberof CategoriesApiCreateCategory
      */
     readonly createCategory: CreateCategory
 }
@@ -425,26 +519,26 @@ export interface CategoriesApiCategoriesPostRequest {
  */
 export class CategoriesApi extends BaseAPI {
     /**
+     * Create a category
+     * @summary Create a category
+     * @param {CategoriesApiCreateCategoryRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CategoriesApi
+     */
+    public createCategory(requestParameters: CategoriesApiCreateCategoryRequest, options?: AxiosRequestConfig) {
+        return CategoriesApiFp(this.configuration).createCategory(requestParameters.createCategory, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Get a list of all possible categories a post can be categorized under
      * @summary Get categories
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CategoriesApi
      */
-    public categoriesGet(options?: AxiosRequestConfig) {
-        return CategoriesApiFp(this.configuration).categoriesGet(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Create a category
-     * @summary Create a category
-     * @param {CategoriesApiCategoriesPostRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CategoriesApi
-     */
-    public categoriesPost(requestParameters: CategoriesApiCategoriesPostRequest, options?: AxiosRequestConfig) {
-        return CategoriesApiFp(this.configuration).categoriesPost(requestParameters.createCategory, options).then((request) => request(this.axios, this.basePath));
+    public getCategories(options?: AxiosRequestConfig) {
+        return CategoriesApiFp(this.configuration).getCategories(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -456,18 +550,15 @@ export class CategoriesApi extends BaseAPI {
 export const PostsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Get posts for the various feeds. Query parameters allow for search and control of pagination.
-         * @summary Get posts
-         * @param {number} [user] Filter the posts to only posts made by the user with a specific id. See also, &#x60;followed&#x60; parameter
-         * @param {boolean} [followed] Has no effect if the &#x60;user&#x60; parameter is not also used. If the user param is used, then setting this parameter to true will search for posts by users followed by the user specified by the &#x60;user&#x60; parameter
-         * @param {string} [search] Return only posts containing this substring in their content
-         * @param {Array<string>} [categories] Return only posts which belong to all categories specified in this parameter. Multiple categories should be separated by commas.
-         * @param {number} [offset] Used for pagination; must be used in conjunction with the &#x60;pageSize&#x60; parameter. Represents the page number the request is for, given the page size specified by the &#x60;pageSize&#x60; parameter. 0 indexed
-         * @param {number} [pageSize] Used for pagination; must be used in conjunction with the &#x60;offset&#x60; parameter. Represents the number of items which should be included per page. Multiple categories should be separated by commas.
+         * Create a post
+         * @summary Create a post
+         * @param {CreatePost} createPost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsGet: async (user?: number, followed?: boolean, search?: string, categories?: Array<string>, offset?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createPost: async (createPost: CreatePost, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createPost' is not null or undefined
+            assertParamExists('createPost', 'createPost', createPost)
             const localVarPath = `/posts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -476,43 +567,22 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication CognitoAuth required
+            // authentication FirebaseAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (user !== undefined) {
-                localVarQueryParameter['user'] = user;
-            }
-
-            if (followed !== undefined) {
-                localVarQueryParameter['followed'] = followed;
-            }
-
-            if (search !== undefined) {
-                localVarQueryParameter['search'] = search;
-            }
-
-            if (categories) {
-                localVarQueryParameter['categories'] = categories;
-            }
-
-            if (offset !== undefined) {
-                localVarQueryParameter['offset'] = offset;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['pageSize'] = pageSize;
-            }
-
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPost, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -526,9 +596,9 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsIdGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPostById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('postsIdGet', 'id', id)
+            assertParamExists('getPostById', 'id', id)
             const localVarPath = `/posts/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -542,7 +612,7 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication CognitoAuth required
+            // authentication FirebaseAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -551,6 +621,46 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Get posts for the various feeds. Request body fields allow for search and control of pagination.
+         * @summary Get posts
+         * @param {GetPostQuery} getPostQuery 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPosts: async (getPostQuery: GetPostQuery, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'getPostQuery' is not null or undefined
+            assertParamExists('getPosts', 'getPostQuery', getPostQuery)
+            const localVarPath = `/getPosts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication FirebaseAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(getPostQuery, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -565,11 +675,11 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsIdPatch: async (id: string, reactToPost: ReactToPost, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        reactToPost: async (id: string, reactToPost: ReactToPost, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('postsIdPatch', 'id', id)
+            assertParamExists('reactToPost', 'id', id)
             // verify required parameter 'reactToPost' is not null or undefined
-            assertParamExists('postsIdPatch', 'reactToPost', reactToPost)
+            assertParamExists('reactToPost', 'reactToPost', reactToPost)
             const localVarPath = `/posts/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -583,7 +693,7 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication CognitoAuth required
+            // authentication FirebaseAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -609,11 +719,11 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsIdPut: async (id: string, createPost: CreatePost, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updatePost: async (id: string, createPost: CreatePost, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('postsIdPut', 'id', id)
+            assertParamExists('updatePost', 'id', id)
             // verify required parameter 'createPost' is not null or undefined
-            assertParamExists('postsIdPut', 'createPost', createPost)
+            assertParamExists('updatePost', 'createPost', createPost)
             const localVarPath = `/posts/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -627,47 +737,7 @@ export const PostsApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication CognitoAuth required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(createPost, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Create a post
-         * @summary Create a post
-         * @param {CreatePost} createPost 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postsPost: async (createPost: CreatePost, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'createPost' is not null or undefined
-            assertParamExists('postsPost', 'createPost', createPost)
-            const localVarPath = `/posts`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication CognitoAuth required
+            // authentication FirebaseAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -696,19 +766,14 @@ export const PostsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = PostsApiAxiosParamCreator(configuration)
     return {
         /**
-         * Get posts for the various feeds. Query parameters allow for search and control of pagination.
-         * @summary Get posts
-         * @param {number} [user] Filter the posts to only posts made by the user with a specific id. See also, &#x60;followed&#x60; parameter
-         * @param {boolean} [followed] Has no effect if the &#x60;user&#x60; parameter is not also used. If the user param is used, then setting this parameter to true will search for posts by users followed by the user specified by the &#x60;user&#x60; parameter
-         * @param {string} [search] Return only posts containing this substring in their content
-         * @param {Array<string>} [categories] Return only posts which belong to all categories specified in this parameter. Multiple categories should be separated by commas.
-         * @param {number} [offset] Used for pagination; must be used in conjunction with the &#x60;pageSize&#x60; parameter. Represents the page number the request is for, given the page size specified by the &#x60;pageSize&#x60; parameter. 0 indexed
-         * @param {number} [pageSize] Used for pagination; must be used in conjunction with the &#x60;offset&#x60; parameter. Represents the number of items which should be included per page. Multiple categories should be separated by commas.
+         * Create a post
+         * @summary Create a post
+         * @param {CreatePost} createPost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postsGet(user?: number, followed?: boolean, search?: string, categories?: Array<string>, offset?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postsGet(user, followed, search, categories, offset, pageSize, options);
+        async createPost(createPost: CreatePost, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createPost(createPost, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -718,8 +783,19 @@ export const PostsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postsIdGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Post>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postsIdGet(id, options);
+        async getPostById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Post>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPostById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Get posts for the various feeds. Request body fields allow for search and control of pagination.
+         * @summary Get posts
+         * @param {GetPostQuery} getPostQuery 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPosts(getPostQuery: GetPostQuery, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Posts>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPosts(getPostQuery, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -730,8 +806,8 @@ export const PostsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postsIdPatch(id: string, reactToPost: ReactToPost, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postsIdPatch(id, reactToPost, options);
+        async reactToPost(id: string, reactToPost: ReactToPost, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.reactToPost(id, reactToPost, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -742,19 +818,8 @@ export const PostsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async postsIdPut(id: string, createPost: CreatePost, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postsIdPut(id, createPost, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * Create a post
-         * @summary Create a post
-         * @param {CreatePost} createPost 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async postsPost(createPost: CreatePost, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.postsPost(createPost, options);
+        async updatePost(id: string, createPost: CreatePost, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePost(id, createPost, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -768,19 +833,14 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
     const localVarFp = PostsApiFp(configuration)
     return {
         /**
-         * Get posts for the various feeds. Query parameters allow for search and control of pagination.
-         * @summary Get posts
-         * @param {number} [user] Filter the posts to only posts made by the user with a specific id. See also, &#x60;followed&#x60; parameter
-         * @param {boolean} [followed] Has no effect if the &#x60;user&#x60; parameter is not also used. If the user param is used, then setting this parameter to true will search for posts by users followed by the user specified by the &#x60;user&#x60; parameter
-         * @param {string} [search] Return only posts containing this substring in their content
-         * @param {Array<string>} [categories] Return only posts which belong to all categories specified in this parameter. Multiple categories should be separated by commas.
-         * @param {number} [offset] Used for pagination; must be used in conjunction with the &#x60;pageSize&#x60; parameter. Represents the page number the request is for, given the page size specified by the &#x60;pageSize&#x60; parameter. 0 indexed
-         * @param {number} [pageSize] Used for pagination; must be used in conjunction with the &#x60;offset&#x60; parameter. Represents the number of items which should be included per page. Multiple categories should be separated by commas.
+         * Create a post
+         * @summary Create a post
+         * @param {CreatePost} createPost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsGet(user?: number, followed?: boolean, search?: string, categories?: Array<string>, offset?: number, pageSize?: number, options?: any): AxiosPromise<InlineResponse200> {
-            return localVarFp.postsGet(user, followed, search, categories, offset, pageSize, options).then((request) => request(axios, basePath));
+        createPost(createPost: CreatePost, options?: any): AxiosPromise<void> {
+            return localVarFp.createPost(createPost, options).then((request) => request(axios, basePath));
         },
         /**
          * Get detailed information about a post.
@@ -789,8 +849,18 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsIdGet(id: string, options?: any): AxiosPromise<Post> {
-            return localVarFp.postsIdGet(id, options).then((request) => request(axios, basePath));
+        getPostById(id: string, options?: any): AxiosPromise<Post> {
+            return localVarFp.getPostById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get posts for the various feeds. Request body fields allow for search and control of pagination.
+         * @summary Get posts
+         * @param {GetPostQuery} getPostQuery 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPosts(getPostQuery: GetPostQuery, options?: any): AxiosPromise<Posts> {
+            return localVarFp.getPosts(getPostQuery, options).then((request) => request(axios, basePath));
         },
         /**
          * Add or remove your reaction to a post (currently, whether you have liked the post or not)
@@ -800,8 +870,8 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsIdPatch(id: string, reactToPost: ReactToPost, options?: any): AxiosPromise<void> {
-            return localVarFp.postsIdPatch(id, reactToPost, options).then((request) => request(axios, basePath));
+        reactToPost(id: string, reactToPost: ReactToPost, options?: any): AxiosPromise<void> {
+            return localVarFp.reactToPost(id, reactToPost, options).then((request) => request(axios, basePath));
         },
         /**
          * Change the content of one of your own posts
@@ -811,137 +881,92 @@ export const PostsApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        postsIdPut(id: string, createPost: CreatePost, options?: any): AxiosPromise<void> {
-            return localVarFp.postsIdPut(id, createPost, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Create a post
-         * @summary Create a post
-         * @param {CreatePost} createPost 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        postsPost(createPost: CreatePost, options?: any): AxiosPromise<void> {
-            return localVarFp.postsPost(createPost, options).then((request) => request(axios, basePath));
+        updatePost(id: string, createPost: CreatePost, options?: any): AxiosPromise<void> {
+            return localVarFp.updatePost(id, createPost, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for postsGet operation in PostsApi.
+ * Request parameters for createPost operation in PostsApi.
  * @export
- * @interface PostsApiPostsGetRequest
+ * @interface PostsApiCreatePostRequest
  */
-export interface PostsApiPostsGetRequest {
+export interface PostsApiCreatePostRequest {
     /**
-     * Filter the posts to only posts made by the user with a specific id. See also, &#x60;followed&#x60; parameter
-     * @type {number}
-     * @memberof PostsApiPostsGet
+     * 
+     * @type {CreatePost}
+     * @memberof PostsApiCreatePost
      */
-    readonly user?: number
-
-    /**
-     * Has no effect if the &#x60;user&#x60; parameter is not also used. If the user param is used, then setting this parameter to true will search for posts by users followed by the user specified by the &#x60;user&#x60; parameter
-     * @type {boolean}
-     * @memberof PostsApiPostsGet
-     */
-    readonly followed?: boolean
-
-    /**
-     * Return only posts containing this substring in their content
-     * @type {string}
-     * @memberof PostsApiPostsGet
-     */
-    readonly search?: string
-
-    /**
-     * Return only posts which belong to all categories specified in this parameter. Multiple categories should be separated by commas.
-     * @type {Array<string>}
-     * @memberof PostsApiPostsGet
-     */
-    readonly categories?: Array<string>
-
-    /**
-     * Used for pagination; must be used in conjunction with the &#x60;pageSize&#x60; parameter. Represents the page number the request is for, given the page size specified by the &#x60;pageSize&#x60; parameter. 0 indexed
-     * @type {number}
-     * @memberof PostsApiPostsGet
-     */
-    readonly offset?: number
-
-    /**
-     * Used for pagination; must be used in conjunction with the &#x60;offset&#x60; parameter. Represents the number of items which should be included per page. Multiple categories should be separated by commas.
-     * @type {number}
-     * @memberof PostsApiPostsGet
-     */
-    readonly pageSize?: number
+    readonly createPost: CreatePost
 }
 
 /**
- * Request parameters for postsIdGet operation in PostsApi.
+ * Request parameters for getPostById operation in PostsApi.
  * @export
- * @interface PostsApiPostsIdGetRequest
+ * @interface PostsApiGetPostByIdRequest
  */
-export interface PostsApiPostsIdGetRequest {
+export interface PostsApiGetPostByIdRequest {
     /**
      * The id of the object in the path
      * @type {string}
-     * @memberof PostsApiPostsIdGet
+     * @memberof PostsApiGetPostById
      */
     readonly id: string
 }
 
 /**
- * Request parameters for postsIdPatch operation in PostsApi.
+ * Request parameters for getPosts operation in PostsApi.
  * @export
- * @interface PostsApiPostsIdPatchRequest
+ * @interface PostsApiGetPostsRequest
  */
-export interface PostsApiPostsIdPatchRequest {
+export interface PostsApiGetPostsRequest {
+    /**
+     * 
+     * @type {GetPostQuery}
+     * @memberof PostsApiGetPosts
+     */
+    readonly getPostQuery: GetPostQuery
+}
+
+/**
+ * Request parameters for reactToPost operation in PostsApi.
+ * @export
+ * @interface PostsApiReactToPostRequest
+ */
+export interface PostsApiReactToPostRequest {
     /**
      * The id of the object in the path
      * @type {string}
-     * @memberof PostsApiPostsIdPatch
+     * @memberof PostsApiReactToPost
      */
     readonly id: string
 
     /**
      * 
      * @type {ReactToPost}
-     * @memberof PostsApiPostsIdPatch
+     * @memberof PostsApiReactToPost
      */
     readonly reactToPost: ReactToPost
 }
 
 /**
- * Request parameters for postsIdPut operation in PostsApi.
+ * Request parameters for updatePost operation in PostsApi.
  * @export
- * @interface PostsApiPostsIdPutRequest
+ * @interface PostsApiUpdatePostRequest
  */
-export interface PostsApiPostsIdPutRequest {
+export interface PostsApiUpdatePostRequest {
     /**
      * The id of the object in the path
      * @type {string}
-     * @memberof PostsApiPostsIdPut
+     * @memberof PostsApiUpdatePost
      */
     readonly id: string
 
     /**
      * 
      * @type {CreatePost}
-     * @memberof PostsApiPostsIdPut
-     */
-    readonly createPost: CreatePost
-}
-
-/**
- * Request parameters for postsPost operation in PostsApi.
- * @export
- * @interface PostsApiPostsPostRequest
- */
-export interface PostsApiPostsPostRequest {
-    /**
-     * 
-     * @type {CreatePost}
-     * @memberof PostsApiPostsPost
+     * @memberof PostsApiUpdatePost
      */
     readonly createPost: CreatePost
 }
@@ -954,63 +979,63 @@ export interface PostsApiPostsPostRequest {
  */
 export class PostsApi extends BaseAPI {
     /**
-     * Get posts for the various feeds. Query parameters allow for search and control of pagination.
-     * @summary Get posts
-     * @param {PostsApiPostsGetRequest} requestParameters Request parameters.
+     * Create a post
+     * @summary Create a post
+     * @param {PostsApiCreatePostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public postsGet(requestParameters: PostsApiPostsGetRequest = {}, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).postsGet(requestParameters.user, requestParameters.followed, requestParameters.search, requestParameters.categories, requestParameters.offset, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    public createPost(requestParameters: PostsApiCreatePostRequest, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).createPost(requestParameters.createPost, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Get detailed information about a post.
      * @summary Get a post.
-     * @param {PostsApiPostsIdGetRequest} requestParameters Request parameters.
+     * @param {PostsApiGetPostByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public postsIdGet(requestParameters: PostsApiPostsIdGetRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).postsIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getPostById(requestParameters: PostsApiGetPostByIdRequest, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).getPostById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get posts for the various feeds. Request body fields allow for search and control of pagination.
+     * @summary Get posts
+     * @param {PostsApiGetPostsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PostsApi
+     */
+    public getPosts(requestParameters: PostsApiGetPostsRequest, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).getPosts(requestParameters.getPostQuery, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Add or remove your reaction to a post (currently, whether you have liked the post or not)
      * @summary React to a post.
-     * @param {PostsApiPostsIdPatchRequest} requestParameters Request parameters.
+     * @param {PostsApiReactToPostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public postsIdPatch(requestParameters: PostsApiPostsIdPatchRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).postsIdPatch(requestParameters.id, requestParameters.reactToPost, options).then((request) => request(this.axios, this.basePath));
+    public reactToPost(requestParameters: PostsApiReactToPostRequest, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).reactToPost(requestParameters.id, requestParameters.reactToPost, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Change the content of one of your own posts
      * @summary Edit a post.
-     * @param {PostsApiPostsIdPutRequest} requestParameters Request parameters.
+     * @param {PostsApiUpdatePostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PostsApi
      */
-    public postsIdPut(requestParameters: PostsApiPostsIdPutRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).postsIdPut(requestParameters.id, requestParameters.createPost, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Create a post
-     * @summary Create a post
-     * @param {PostsApiPostsPostRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PostsApi
-     */
-    public postsPost(requestParameters: PostsApiPostsPostRequest, options?: AxiosRequestConfig) {
-        return PostsApiFp(this.configuration).postsPost(requestParameters.createPost, options).then((request) => request(this.axios, this.basePath));
+    public updatePost(requestParameters: PostsApiUpdatePostRequest, options?: AxiosRequestConfig) {
+        return PostsApiFp(this.configuration).updatePost(requestParameters.id, requestParameters.createPost, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1028,9 +1053,9 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        usersIdGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getUserById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('usersIdGet', 'id', id)
+            assertParamExists('getUserById', 'id', id)
             const localVarPath = `/users/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1044,7 +1069,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication CognitoAuth required
+            // authentication FirebaseAuth required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
@@ -1076,8 +1101,8 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async usersIdGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserFullProfile>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.usersIdGet(id, options);
+        async getUserById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserFullProfile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getUserById(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1097,22 +1122,22 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        usersIdGet(id: string, options?: any): AxiosPromise<UserFullProfile> {
-            return localVarFp.usersIdGet(id, options).then((request) => request(axios, basePath));
+        getUserById(id: string, options?: any): AxiosPromise<UserFullProfile> {
+            return localVarFp.getUserById(id, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for usersIdGet operation in UsersApi.
+ * Request parameters for getUserById operation in UsersApi.
  * @export
- * @interface UsersApiUsersIdGetRequest
+ * @interface UsersApiGetUserByIdRequest
  */
-export interface UsersApiUsersIdGetRequest {
+export interface UsersApiGetUserByIdRequest {
     /**
      * The id of the object in the path
      * @type {string}
-     * @memberof UsersApiUsersIdGet
+     * @memberof UsersApiGetUserById
      */
     readonly id: string
 }
@@ -1127,13 +1152,13 @@ export class UsersApi extends BaseAPI {
     /**
      * Get detailed information about a user.
      * @summary Get a user.
-     * @param {UsersApiUsersIdGetRequest} requestParameters Request parameters.
+     * @param {UsersApiGetUserByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public usersIdGet(requestParameters: UsersApiUsersIdGetRequest, options?: AxiosRequestConfig) {
-        return UsersApiFp(this.configuration).usersIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getUserById(requestParameters: UsersApiGetUserByIdRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getUserById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
